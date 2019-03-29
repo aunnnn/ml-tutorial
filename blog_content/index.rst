@@ -11,6 +11,26 @@
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Linear Regression with Regularization">
+
+.. only:: html
+
+    .. figure:: /blog_content/linear_regression/images/thumb/sphx_glr_linear_regression_regularized_tutorial_thumb.png
+
+        :ref:`sphx_glr_blog_content_linear_regression_linear_regression_regularized_tutorial.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /blog_content/linear_regression/linear_regression_regularized_tutorial
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="A Complete Guide to Matrix Notation and Linear Regression">
 
 .. only:: html

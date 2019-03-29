@@ -471,6 +471,9 @@ dimension of :math:`w`:
    \end{bmatrix}
    }
 
+
+
+
 Looks like we might be able to apply our fourth point (:math:`Xw`, but
 in this case :math:`w` is :math:`(y - Xw)`. But unlike our fourth point,
 we now sum along data points (:math:`n`) instead of dimensions
@@ -530,6 +533,7 @@ A NumPy Example
 
     import numpy as np
     import matplotlib.pyplot as plt
+    np.random.seed(1)
 
 
 
@@ -570,13 +574,18 @@ world perfectly:
 
     def observed_target(x):
       """Underlying data with Gaussian noise added"""
-      normal_noise = np.random.normal() * 8
+      normal_noise = np.random.normal() * 3
       return true_target(x) + normal_noise
 
 
 
 
 
+
+
+
+Creating data points
+~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -591,7 +600,8 @@ Next, make 50 data points, observations and targets:
     N = 50
 
     # Features, X is [1,50]
-    X = np.arange(N).reshape(N, 1)
+    # X = np.arange(N).reshape(N, 1)
+    X = np.random.rand(N).reshape(N, 1) * 10
 
     # Observed targets
     y = np.array([observed_target(x) for x in X]).reshape(N, 1)
@@ -626,7 +636,8 @@ back, it will simply reflect correspondingly in our solution :math:`w`.
 
 
 
-Visualize the data:
+Visualize our data points with respect to the true line
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -639,7 +650,7 @@ Visualize the data:
     target = y
     true_targets = true_target(X[:,1:])
 
-    plt.scatter(features, target, s=10, label='Observed data points (noisy)')
+    plt.scatter(features, target, s=10, label='Observed data points')
     plt.plot(features, true_targets, c='blue', label='True target line y = 2x + 7', alpha=0.3)
 
     plt.xlabel('Feature')
@@ -658,9 +669,15 @@ Visualize the data:
 
 
 
-Our goal is to get the line that is closest to the true target line as
-possible. For this we use linear regression with our closed-form
-solution:
+Compute a closed-form solution
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+Our goal is to get the line that is closest to that true target (blue)
+line as possible, without the knowledge of its existence. For this we
+use linear regression to fit observed data points by following the
+formula from the previous section:
 
 
 
@@ -678,7 +695,7 @@ solution:
 
 
 To predict, we compute :math:`\hat{y} = xw` for each data point
-:math:`x^i`:
+:math:`x^i`. Here we predict the training set (``X``) itself:
 
 
 
@@ -687,6 +704,27 @@ To predict, we compute :math:`\hat{y} = xw` for each data point
 
 
     predicted = X @ w # y_hat
+
+
+
+
+
+
+
+
+To predict a set of new points, you just make it the same format as
+``X``, e.g., rows of data points.
+
+
+
+Visualize best fit line vs. true target line
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+.. code-block:: python
+
 
     plt.scatter(features, target, s=10, label='Data points')
     plt.plot(features, true_targets, c='blue', label='True target line', alpha=0.3)
@@ -707,30 +745,12 @@ To predict, we compute :math:`\hat{y} = xw` for each data point
 
 
 
-That's pretty close. Let see our SSE loss for this line:
+That's pretty close.
 
 
 
-
-.. code-block:: python
-
-
-    sse_loss = np.linalg.norm(y - X@w, ord=2) ** 2 # Use L-2 norm from np.linalg, or do (y - X@w).T @ (y - X@w)
-    print("Sum of squared error is", sse_loss)
-
-
-
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    Sum of squared error is 4109.915036094633
-
+Understanding the result
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 And our :math:`w` is:
 
@@ -753,14 +773,15 @@ And our :math:`w` is:
 
  .. code-block:: none
 
-    [[5.12759702]
-     [2.04356492]]
+    [[7.00426874]
+     [2.08162643]]
 
 
 Since we append ones in front of each data point :math:`x`, ``w[0]``
-will be the intercept term and ``w[1]`` will be the slope. Recall the
-true equation :math:`y = 2x + 7`, you can see that we almost got the
-true slope (2):
+will be the intercept term and ``w[1]`` will be the slope. So our
+predicted line will be in the format of ``y = w[1]*x + w[0]``. Recall
+the *true* equation :math:`y = 2x + 7`, you can see that we almost got
+the true slope (2):
 
 
 
@@ -768,7 +789,7 @@ true slope (2):
 .. code-block:: python
 
 
-    print(w[1][0])
+    print("Our slope is", w[1][0])
 
 
 
@@ -781,7 +802,7 @@ true slope (2):
 
  .. code-block:: none
 
-    2.0435649222771386
+    Our slope is 2.081626431082087
 
 
 The intercept seems a little off, but that's okay because our data is in
@@ -789,7 +810,287 @@ a big range (:math:`x \in [0, 50], y \in [7, 107]`). If we normalize the
 data into :math:`[0, 1]` range, expect it to be much closer.
 
 
-**Total running time of the script:** ( 0 minutes  0.037 seconds)
+
+Below is our sum of squared error for the best fit line. Note that the
+number doesn't mean anything much, apart from that this is the least
+possible loss we would get from any lines that try to fit the data:
+
+
+
+
+.. code-block:: python
+
+
+    diff = (y - X @ w)
+    loss = diff.T @ diff
+    print(loss)
+
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    [[368.25248566]]
+
+
+If you don't want intermediate variable, you can use ``np.linalg.norm``,
+but to get the sum of squared loss, you have to square that after:
+
+
+
+
+.. code-block:: python
+
+
+    loss = np.linalg.norm(y - X @ w, ord=2) ** 2
+    print(loss)
+
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    368.252485661978
+
+
+Visualize the loss surface
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Let's confirm that our solution is really the one with lowest loss by
+seeing the loss surface.
+
+Our loss function :math:`L(w)` depends on two dimensions of :math:`w`,
+e.g., ``w[0]`` and ``w[1]``. If we plot :math:`L(w)` over possible
+values of ``w[0]`` and ``w[1]``, the minimum of :math:`L(w)` should be
+near ``w = [5.17,2.066]``, which is our solution.
+
+To plot that out, first we have to create all possible values of w[0]
+and w[1] in a grid.
+
+
+
+
+.. code-block:: python
+
+
+    from mpl_toolkits.mplot3d import Axes3D
+
+    # Ranges of w0 and w1 to see, centering at the true line
+    spanning_radius = 10
+    w0range = np.arange(7-spanning_radius, 7+spanning_radius, 0.05)
+    w1range = np.arange(2-spanning_radius, 2+spanning_radius, 0.05)
+    w0grid, w1grid = np.meshgrid(w0range, w1range)
+
+    range_len = len(w0range)
+    print("Number of values in each axis:", range_len)
+
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    Number of values in each axis: 400
+
+
+This means we'll look into a total of 400\*400 = 160,000 values of
+``w``. We have to calculate loss for each pair of ``w0, w1``:
+
+
+
+
+.. code-block:: python
+
+
+    # Make [w0, w1] in (2, 14400) shape
+    all_w0w1_values = np.hstack([w0grid.flatten()[:,None], w1grid.flatten()[:,None]]).T
+
+    # Compute all losses, reshape back to grid format
+    all_losses = (np.linalg.norm(y - (X @ all_w0w1_values), axis=0, ord=2) ** 2).reshape((range_len, range_len))
+
+
+
+
+
+
+
+
+Then, we can plot the loss surface (with minimum at the red point):
+
+
+
+
+.. code-block:: python
+
+
+    fig = plt.figure(figsize=(10,6))
+    ax = fig.gca(projection='3d')
+
+    ax.plot_surface(w0grid, w1grid, all_losses, alpha=0.5, cmap='RdBu')
+    ax.contour(w0grid, w1grid, all_losses, offset=0, alpha=1, cmap='RdBu')
+    ax.scatter(w[0], w[1], loss, lw=3, c='red', s=100, label="Minimum point (5.9,2.2)")
+
+    ax.legend(loc='best')
+    ax.set_xlabel('w[0]')
+    ax.set_ylabel('w[1]')
+    ax.set_zlabel('L(w)')
+    ax.set_xticks(np.arange(7-spanning_radius, 7+spanning_radius, 2))
+    ax.set_yticks(np.arange(2-spanning_radius, 2+spanning_radius, 2))
+    ax.set_zticks([loss])
+    plt.show()
+
+
+
+
+
+.. image:: /blog_content/linear_regression/images/sphx_glr_linear_regression_tutorial_003.png
+    :class: sphx-glr-single-img
+
+
+
+
+You can notice the bowl **centers** at the solution.
+
+
+
+Using sklearn
+-------------
+
+Using ``sklearn`` for linear regression is very simple (if you already
+understand all the concepts above).
+
+
+
+
+.. code-block:: python
+
+
+    from sklearn.linear_model import LinearRegression
+
+
+
+
+
+
+
+
+First we create the classifier ``clf``. If ``fit_intercept`` is ``True``
+(default), then it adds the dummy '1' to the ``X``. But we already did
+that manually, so set it to ``False`` here.
+
+
+
+
+.. code-block:: python
+
+
+    clf = LinearRegression(fit_intercept=False)
+
+
+
+
+
+
+
+
+Then fit the data:
+
+
+
+
+.. code-block:: python
+
+
+    clf.fit(X,y)
+
+
+
+
+
+
+
+
+Check the :math:`w` learned, it's the same as ours:
+
+
+
+
+.. code-block:: python
+
+
+    print(clf.coef_)
+
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    [[7.00426874 2.08162643]]
+
+
+Previously we use ``X @ w`` to predict data. For ``sklearn`` we can use
+``clf.predict``:
+
+
+
+
+.. code-block:: python
+
+
+    predicted = clf.predict(X)
+
+
+
+
+
+
+
+
+And the result is the same:
+
+
+
+
+.. code-block:: python
+
+
+    plt.scatter(X[:,1:], y, s=10, label='Data points')
+    plt.plot(X[:,1:], true_targets, c='blue', label='True line', alpha=0.3)
+    plt.plot(X[:,1:], predicted, c='red', label='Best fit line')
+    plt.legend(loc='best')
+    plt.show()
+
+
+.. image:: /blog_content/linear_regression/images/sphx_glr_linear_regression_tutorial_004.png
+    :class: sphx-glr-single-img
+
+
+
+
+**Total running time of the script:** ( 0 minutes  0.381 seconds)
 
 
 .. _sphx_glr_download_blog_content_linear_regression_linear_regression_tutorial.py:
