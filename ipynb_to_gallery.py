@@ -37,6 +37,7 @@ def convert_ipynb_to_gallery(file_name):
                 source = ''.join(cell['source'])
                 python_file = python_file + '\n' * 2 + source
 
+    python_file = python_file.replace("\n%", "\n# %")
     open(file_name.replace('.ipynb', '.py'), 'w').write(python_file)
 
 if __name__ == '__main__':

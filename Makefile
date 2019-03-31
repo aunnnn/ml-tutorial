@@ -32,7 +32,8 @@ livehtml:
 	--open-browser \
 	--ignore "blog_content/*" \
 	--ignore "blog_content_source/**/*.ipynb" \
-	--ignore ".git/**" \
+	--ignore "./.git/**/*.*" \
+	--ignore "./docs/**/*" \
 	. "$(BUILDDIR)/html"
 
 clean-cache:

@@ -13,11 +13,15 @@ Linear Regression with Regularization
 
 
 Regularization is a way to prevent overfitting and allows the model to
-generalize better.
+generalize better. We'll cover the *Ridge* and *Lasso* regression here.
+
+The Need for Regularization
+---------------------------
 
 Unlike polynomial fitting, it's hard to imagine how linear regression
 can overfit the data, since it's just a single line (or a hyperplane).
-One situation might be that features are **correlated** or redundant.
+One situation is that features are **correlated** or redundant.
+
 Suppose there are two features, both are exactly the same, our predicted
 hyperplane will be in this format:
 
@@ -43,23 +47,34 @@ drop a parameter just because we feel like it. We want to model to learn
 to do this itself, that is, to *prefer a simpler model that fits the
 data well enough*.
 
-To do this, we add a penalty term to our loss function. Two common
-penalty terms are L1 and L2.
+To do this, we add a *penalty term* to our loss function. Two common
+penalty terms are L2 and L1 norm of :math:`w`.
 
 
 
-L2 Penalty
-~~~~~~~~~~
+L2 and L1 Penalty
+-----------------
 
-Recall the loss function of linear regression from `previous
-article </blog_content/linear_regression/linear_regression_tutorial.html#writing-sse-loss-in-matrix-notation>`__.
+
+
+0. No Penalty (or Linear)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is linear regression without any regularization (from `previous
+article </blog_content/linear_regression/linear_regression_tutorial.html#writing-sse-loss-in-matrix-notation>`__):
 
 .. math::
 
 
    L(w) = \sum_{i=1}^{n} \left( y^i - wx^i \right)^2
 
-we can add the **L2 penalty term** to it, and this is called **L2
+
+
+
+1. L2 Penalty (or Ridge)
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+We can add the **L2 penalty term** to it, and this is called **L2
 regularization**.:
 
 .. math::
@@ -75,21 +90,27 @@ Let's see what's going on. Loss function is something we **minimize**.
 Any terms that we add to it, we also want it to be minimized (that's why
 it's called *penalty term*). The above means we want :math:`w` that fits
 the data well (first term), but we also want the values of :math:`w` to
-be small as possible (second term). :math:`\lambda` (or whatever greek
-signs used) is to adjust how much to penalize :math:`w`. It's impossible
-to know the appropriate value for lambda. You just have to try them out,
-in exponential range (0.01, 0.1, 1, 10, etc), then select the one that
-has the lowest loss on validation set, or doing k-fold cross validation.
+be small as possible (second term). The lambda (:math:`\lambda`) is
+there to adjust how much to penalize :math:`w`. Note that ``sklearn``
+refers to this as alpha (:math:`\alpha`) instead, but whatever.
+
+It's tricky to know the appropriate value for lambda. You just have to
+try them out, in exponential range (0.01, 0.1, 1, 10, etc), then select
+the one that has the lowest loss on validation set, or doing k-fold
+cross validation.
 
 Setting :math:`\lambda` to be very low means we don't penalize the
-complex model much. Setting it to :math:`0` is the vanilla linear
+complex model much. Setting it to :math:`0` is the original linear
 regression. Setting it high means we strongly prefer simpler model, at
 the cost of how well it fits the data.
 
-Closed-form solution
-^^^^^^^^^^^^^^^^^^^^
 
-We can also write L2 regression in a nice matrix notation:
+
+Closed-form solution of Ridge
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It's not hard to find a closed-form solution for Ridge, first write the
+loss function in matrix notation:
 
 .. math::
 
@@ -102,9 +123,6 @@ Then the gradient is:
 
 
    \nabla L_w = -2X^T(y-Xw) + 2\lambda w
-
-
-
 
 Setting to zero and solve:
 
@@ -132,10 +150,10 @@ which is almost the same as linear regression without regularization.
 
 
 
-L1 Penalty
-~~~~~~~~~~
+2. L1 Penalty (or Lasso)
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-As you might guess, you can add L1-norm for **L1 regularization**:
+As you might guess, you can also use L1-norm for **L1 regularization**:
 
 .. math::
 
@@ -155,146 +173,166 @@ it here.
 
 
 
-L1 vs L2 Penalty
-~~~~~~~~~~~~~~~~
+Visualizing the Loss Surface with Regularization
+------------------------------------------------
+
+
+
+Let's see what these penalty terms mean geometrically.
+
+L2 loss surface
+~~~~~~~~~~~~~~~
+
+.. figure:: ./imgs/img_l2_surface.png
+   :alt: img\_l2\_surface
+
+   img\_l2\_surface
+
+This simply follows the 3D equation:
+
+.. math::
+
+
+   L(w) = {\left\lVert w \right\rVert}_2^2 = w_0^2 + w_1^2
+
+The center of the bowl is lowest, since ``w = [0,0]``, but that is not
+even a line and it won't predict anything useful.
+
+L2 loss surface under different lambdas
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When you multiply the L2 norm function with lambda,
+:math:`L(w) = \lambda(w_0^2 + w_1^2)`, the width of the bowl changes.
+The lowest (and flattest) one has lambda of 0.25, which you can see it
+penalizes The two subsequent ones has lambdas of 0.5 and 1.0.
+
+.. figure:: ./imgs/img_l2_surface_lambdas.png
+   :alt: img\_l2\_surface\_lambdas
+
+   img\_l2\_surface\_lambdas
+
+L1 loss surface
+~~~~~~~~~~~~~~~
+
+Below is the loss surface of L1 penalty:
+
+.. figure:: ./imgs/img_l1_surface.png
+   :alt: img\_l1\_surface
+
+   img\_l1\_surface
+
+Similarly the equation is
+:math:`L(w) = \lambda(\left| w_0 \right| + \left| w_1 \right|)`.
+
+Contour of different penalty terms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the L2 norm is 1, you get a unit circle (:math:`w_0^2 + w_1^2 = 1`).
+In the same manner, you get "unit" shapes in other norms:
+
+.. figure:: ./imgs/img_penalty_contours.png
+   :alt: img\_penalty\_contours
+
+   img\_penalty\_contours
+
+**When you walk along these lines, you get the same loss, which is 1**
+
+These shapes can hint us different behaviors of each norm, which brings
+us to the next question.
+
+
+
+Which one to use, L1 or L2?
+---------------------------
 
 What's the point of using different penalty terms, as it seems like both
 try to push down the size of :math:`w`.
 
-Turns out L1 penalty tends to produce *sparse solutions*, which means
-most entries in :math:`w` are zeros. This is great if you want the model
-to be simple and compact.
+**Turns out L1 penalty tends to produce sparse solutions**. This means
+many entries in :math:`w` are zeros. This is good if you want the model
+to be simple and compact. Why is that?
+
+Geometrical Explanation
+~~~~~~~~~~~~~~~~~~~~~~~
+
+*Note: these figures are generated with unusually high lambda to
+exaggerate the plot*
+
+First let's bring both linear regression and penalty loss surface
+together (left), and recall that we want to find the **minimum loss when
+both surfaces are summed up** (right):
+
+.. figure:: ./imgs/img_ridge_regression.png
+   :alt: ridge
+
+   ridge
+
+Ridge regression is like finding the middle point where the loss of a
+sum between linear regression and L2 penalty loss is lowest:
+
+.. figure:: ./imgs/img_ridge_sol_30.png
+   :alt: ridge\_solution
+
+   ridge\_solution
+
+You can imagine starting with the linear regression solution (red point)
+where the loss is the lowest, then you move towards the origin (blue
+point), where the penalty loss is lowest. **The more lambda you set, the
+more you'll be drawn towards the origin, since you penalize the values
+of :math:`w_i` more** so it wants to get to where they're all zeros:
+
+.. figure:: ./imgs/img_ridge_sol_60.png
+   :alt: ridge\_solution
+
+   ridge\_solution
+
+Since the loss surfaces of linear regression and L2 norm are both
+ellipsoid, the solution found for Ridge regression **tends to be
+directly between both solutions**. Notice how the summed ellipsoid is
+still right in the middle.
+
+--------------
+
+For Lasso:
+
+.. figure:: ./imgs/img_lasso_regression.png
+   :alt: lasso
+
+   lasso
+
+And this is the Lasso solution for lambda = 30 and 60:
+
+.. figure:: ./imgs/img_lasso_sol_30.png
+   :alt: lasso\_solution
+
+   lasso\_solution
+
+.. figure:: ./imgs/img_lasso_sol_60.png
+   :alt: lasso\_solution
+
+   lasso\_solution
+
+Notice that the ellipsoid of linear regression **approaches, and finally
+hits a corner of L1 loss**, and will always stay at that corner. What
+does a corner of L1 norm means in this situation? It means
+:math:`w_1 = 0`.
+
+Again, this is because the contour lines **at the same loss value** of
+L2 norm reaches out much farther than L1 norm:
+
+.. figure:: ./imgs/img_l1_vs_l2_contour.png
+   :alt: img\_l1\_vs\_l2\_contour
+
+   img\_l1\_vs\_l2\_contour
+
+If the linear regression finds an optimal contact point along the L2
+circle, then it will stop since there's no use to move sideways where
+the loss is usually higher. However, with L1 penalty, it can drift
+toward a corner, because it's **the same loss along the line** anyway (I
+mean, why not?) and thus is exploited, if the opportunity arises.
 
 
-
-
-.. code-block:: python
-
-
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from matplotlib import cm
-
-    np.random.seed(1)
-
-    Lambda = 0.2
-
-    True_w1 = 300
-    True_w0 = 500
-    def true_target(x):
-      return True_w1*x + True_w0
-
-    def observed_target(x):
-      """Underlying data with Gaussian noise added"""
-      normal_noise = np.random.normal() * 6
-      return true_target(x) + normal_noise
-
-    N = 50
-
-    # Features, X is [1,50]
-    # X = np.arange(N).reshape(N, 1)
-    X = np.random.rand(N).reshape(N, 1)
-
-    # Observed targets
-    y = np.array([observed_target(x) for x in X]).reshape(N, 1)
-
-    # Append 1 for intercept term later
-    X = np.hstack([np.ones((N, 1)), X])
-
-    from mpl_toolkits.mplot3d import Axes3D
-
-    # Ranges of w0 and w1 to see, centering at the true line
-    spanning_radius = np.max([True_w1, True_w0, 200])
-    step = 0.5
-    w0range = np.arange(True_w0-spanning_radius, True_w0+spanning_radius, step)
-    w1range = np.arange(True_w1-spanning_radius, True_w1+spanning_radius, step)
-    w0grid, w1grid = np.meshgrid(w0range, w1range)
-
-    range_len = len(w0range)
-    print("Number of values in each axis:", range_len)
-
-    # Make [w0, w1] in (2, 14400) shape
-    all_w0w1_values = np.hstack([w0grid.flatten()[:,None], w1grid.flatten()[:,None]]).T
-
-    # Compute raw losses
-    raw_losses = np.linalg.norm(y - (X @ all_w0w1_values), axis=0) ** 2
-    raw_losses = raw_losses.reshape((range_len, range_len))
-
-    # Compute L2 penalty losses
-    penalty_loss = Lambda * np.linalg.norm(all_w0w1_values, axis=0) ** 2
-    penalty_loss = penalty_loss.reshape((range_len, range_len))
-
-    from sklearn.linear_model import Ridge, Lasso, LinearRegression
-
-    lr = LinearRegression(fit_intercept=False)
-    lr = lr.fit(X, y)
-
-    ridge = Ridge(alpha=Lambda)
-    ridge = ridge.fit(X, y)
-
-    lasso = Lasso(alpha=Lambda)
-    lasso = lasso.fit(X, y)
-
-    ridge_coef = ridge.coef_[0]
-    lasso_coef = lasso.coef_
-    lr_coef = lr.coef_[0]
-
-    print("Ridge solution:", ridge_coef)
-    print("Lasso solution:", lasso_coef)
-    print("Linear Regression solution:", lr_coef)
-
-    ridge_loss = np.linalg.norm(y - X @ ridge_coef) ** 2 + Lambda * np.linalg.norm(ridge_coef, ord=2) ** 2
-    lasso_loss = np.linalg.norm(y - X @ lasso_coef) ** 2 + Lambda * np.linalg.norm(lasso_coef, ord=1)
-    lr_loss = np.linalg.norm(y - X @ lr_coef) ** 2
-
-    print("Ridge loss:", ridge_loss)
-    print("Lasso loss:", lasso_loss)
-    print("Linear Regression loss:", lr_loss)
-
-    fig = plt.figure(figsize=(10,6))
-    ax = fig.gca(projection='3d')
-
-    ax.plot_surface(w0grid, w1grid, raw_losses, alpha=0.4, cmap='RdBu')
-    ax.contour(w0grid, w1grid, penalty_loss, alpha=1, cmap='plasma_r')
-
-    ax.scatter([0],[0], 0, c='black', s=100, label="(0,0)")
-
-    ax.scatter([ridge_coef[0]],[ridge_coef[1]], 0, c='green', s=100, label="Ridge solution")
-    ax.scatter([lr_coef[0]],[lr_coef[1]], 0, c='red', s=100, label="Linear regression solution")
-
-    ax.legend(loc='best')
-    ax.set_xlabel('w[0]')
-    ax.set_ylabel('w[1]')
-    ax.set_zlabel('L(w)')
-    ax.set_xticks(np.arange(True_w0-spanning_radius, True_w0+spanning_radius, 100))
-    ax.set_yticks(np.arange(True_w1-spanning_radius, True_w1+spanning_radius, 100))
-    ax.set_zticks([ridge_loss])
-    # plt.axis('off')
-    # ax.set_zlim(0, 20000)
-
-    plt.show()
-
-
-.. image:: /blog_content/linear_regression/images/sphx_glr_linear_regression_regularized_tutorial_001.png
-    :class: sphx-glr-single-img
-
-
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    Number of values in each axis: 2000
-    Ridge solution: [  0.         289.21906667]
-    Lasso solution: [  0.         299.48649757]
-    Linear Regression solution: [500.00853749 301.63252862]
-    Ridge loss: 680374639.5444187
-    Lasso loss: 669697965.9185725
-    Linear Regression loss: 42469207.783152446
-
-
-**Total running time of the script:** ( 0 minutes  5.456 seconds)
+**Total running time of the script:** ( 0 minutes  0.000 seconds)
 
 
 .. _sphx_glr_download_blog_content_linear_regression_linear_regression_regularized_tutorial.py:

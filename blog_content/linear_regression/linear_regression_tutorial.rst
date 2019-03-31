@@ -65,13 +65,35 @@ as a loss function :math:`L(w)`:
 
    L(w) = \sum_{i=1}^{n} \left( y^i - \hat{y}^i \right)^2 = \sum_{i=1}^{n} \left( y^i - wx^i \right)^2
 
-From now on we refer to a data point (d+1 vector) as :math:`x^i` and
-target (scalar) as :math:`y^i`.
+From now on we refer to a data point (d+1 vector) as :math:`x^i` and its
+corresponding target (scalar) as :math:`y^i`.
 
-*:math:`^\dagger` Surprisingly, the SSE loss is not from someone's
-intuition, but it's systematically derived from the assumption that
-there is Gaussian noise with our observation of the underlying linear
-relationship.*
+Surprisingly, the SSE loss is not from someone's intuition, but it's
+from the assumption that there is **Gaussian noise in our observation**
+of the underlying linear relationship. We will show how this leads to
+SSE loss later, but first let's visualize what we're trying to do.
+
+.. figure:: ./imgs/img_lr_objective.png
+   :alt: img
+
+   img
+
+1. There is a true line, the true linear relationship that we want to
+   discover (blue line).
+2. The data points are then observed through noise **deviating from that
+   line, with Gaussian distribution**.
+3. Suppose we predict a random line (red), not the best one yet.
+4. We calculate the distance or difference between the predicted points
+   (along the line) and the actual data points. This is then **squared
+   and sum up to get sum of squared error**.
+
+    Linear regression is the method to get the line that fits the given
+    data with the minimum sum of squared error.
+
+*Note: I know it's confusing for the first time, but you'll get used to
+using superscript for indexing data points...*
+
+
 
 How to Find the Optimal Solution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -311,7 +333,7 @@ Writing SSE Loss in Matrix Notation
 Now you're ready, let's write the above SSE loss function in matrix
 notation. If you look at :math:`L(w)` closely, it's a sum of squared of
 vector :math:`y - \hat{y}`. This means we can kick-off by applying our
-fourth trick:
+fifth trick:
 
 .. math::
 
@@ -428,8 +450,8 @@ Deriving a Closed-form Solution
 
 
 
-We'll take derivative of :math:`L(w)` with respect to :math:`w`, set to
-zero and solve for :math:`w`.
+To do that, we'll take derivative of :math:`L(w)` with respect to
+:math:`w`, set to zero and solve for :math:`w`.
 
 Writing matrix notation is already hard, taking derivative of it is even
 harder. I recommend writing out partial derivatives to see what happens.
@@ -600,7 +622,6 @@ Next, make 50 data points, observations and targets:
     N = 50
 
     # Features, X is [1,50]
-    # X = np.arange(N).reshape(N, 1)
     X = np.random.rand(N).reshape(N, 1) * 10
 
     # Observed targets
@@ -1077,6 +1098,7 @@ And the result is the same:
 .. code-block:: python
 
 
+    plt.figure()
     plt.scatter(X[:,1:], y, s=10, label='Data points')
     plt.plot(X[:,1:], true_targets, c='blue', label='True line', alpha=0.3)
     plt.plot(X[:,1:], predicted, c='red', label='Best fit line')
@@ -1090,7 +1112,7 @@ And the result is the same:
 
 
 
-**Total running time of the script:** ( 0 minutes  0.381 seconds)
+**Total running time of the script:** ( 0 minutes  1.197 seconds)
 
 
 .. _sphx_glr_download_blog_content_linear_regression_linear_regression_tutorial.py:

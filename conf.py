@@ -99,6 +99,7 @@ language = None
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 exclude_patterns += sphinx_gallery_conf['examples_dirs']
 exclude_patterns += ['*/index.rst']
+exclude_patterns += ['.git/**/*', '.git/index/**/*', '.git/objects/**/*', './docs/**/*']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None

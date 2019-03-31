@@ -220,12 +220,36 @@ of predicted value <span class="math notranslate nohighlight">\(\hat{y}^i\)</spa
 as a loss function <span class="math notranslate nohighlight">\(L(w)\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[L(w) = \sum_{i=1}^{n} \left( y^i - \hat{y}^i \right)^2 = \sum_{i=1}^{n} \left( y^i - wx^i \right)^2\]</div>
-<p>From now on we refer to a data point (d+1 vector) as <span class="math notranslate nohighlight">\(x^i\)</span> and
-target (scalar) as <span class="math notranslate nohighlight">\(y^i\)</span>.</p>
-<p><em>:math:`^dagger` Surprisingly, the SSE loss is not from someone’s
-intuition, but it’s systematically derived from the assumption that
-there is Gaussian noise with our observation of the underlying linear
-relationship.</em></p>
+<p>From now on we refer to a data point (d+1 vector) as <span class="math notranslate nohighlight">\(x^i\)</span> and its
+corresponding target (scalar) as <span class="math notranslate nohighlight">\(y^i\)</span>.</p>
+<p>Surprisingly, the SSE loss is not from someone’s intuition, but it’s
+from the assumption that there is <strong>Gaussian noise in our observation</strong>
+of the underlying linear relationship. We will show how this leads to
+SSE loss later, but first let’s visualize what we’re trying to do.</p>
+<div class="figure" id="id1">
+<img alt="img" src="blog_content/linear_regression/./imgs/img_lr_objective.png" />
+<p class="caption"><span class="caption-text">img</span></p>
+</div>
+<ol class="arabic">
+<li><p class="first">There is a true line, the true linear relationship that we want to
+discover (blue line).</p>
+</li>
+<li><p class="first">The data points are then observed through noise <strong>deviating from that
+line, with Gaussian distribution</strong>.</p>
+</li>
+<li><p class="first">Suppose we predict a random line (red), not the best one yet.</p>
+</li>
+<li><p class="first">We calculate the distance or difference between the predicted points
+(along the line) and the actual data points. This is then <strong>squared
+and sum up to get sum of squared error</strong>.</p>
+<blockquote>
+<div><p>Linear regression is the method to get the line that fits the given
+data with the minimum sum of squared error.</p>
+</div></blockquote>
+</li>
+</ol>
+<p><em>Note: I know it’s confusing for the first time, but you’ll get used to
+using superscript for indexing data points…</em></p>
 <div class="section" id="how-to-find-the-optimal-solution">
 <h3>How to Find the Optimal Solution<a class="headerlink" href="#how-to-find-the-optimal-solution" title="Permalink to this headline">¶</a></h3>
 <p>An optimal solution (<span class="math notranslate nohighlight">\(w\)</span>) for this equation can be found either
@@ -402,7 +426,7 @@ now, let’s not care what norm actually means.</p>
 <p>Now you’re ready, let’s write the above SSE loss function in matrix
 notation. If you look at <span class="math notranslate nohighlight">\(L(w)\)</span> closely, it’s a sum of squared of
 vector <span class="math notranslate nohighlight">\(y - \hat{y}\)</span>. This means we can kick-off by applying our
-fourth trick:</p>
+fifth trick:</p>
 <div class="math notranslate nohighlight">
 \[L(w) = {\left\lVert y - \hat{y} \right\rVert}^2\]</div>
 <p>Next we just have to find <span class="math notranslate nohighlight">\(y - \hat{y}\)</span>. First we encode target
@@ -489,8 +513,8 @@ easier.</p>
 </div>
 <div class="section" id="deriving-a-closed-form-solution">
 <h2>Deriving a Closed-form Solution<a class="headerlink" href="#deriving-a-closed-form-solution" title="Permalink to this headline">¶</a></h2>
-<p>We’ll take derivative of <span class="math notranslate nohighlight">\(L(w)\)</span> with respect to <span class="math notranslate nohighlight">\(w\)</span>, set to
-zero and solve for <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p>To do that, we’ll take derivative of <span class="math notranslate nohighlight">\(L(w)\)</span> with respect to
+<span class="math notranslate nohighlight">\(w\)</span>, set to zero and solve for <span class="math notranslate nohighlight">\(w\)</span>.</p>
 <p>Writing matrix notation is already hard, taking derivative of it is even
 harder. I recommend writing out partial derivatives to see what happens.
 For <span class="math notranslate nohighlight">\(L(w) = L_w\)</span>, we have to take derivative with respect to each
@@ -583,7 +607,6 @@ world perfectly:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
 
 <span class="c1"># Features, X is [1,50]</span>
-<span class="c1"># X = np.arange(N).reshape(N, 1)</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
 
 <span class="c1"># Observed targets</span>
@@ -786,7 +809,8 @@ that manually, so set it to <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 <p>And the result is the same:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:],</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data points&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:],</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data points&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:],</span> <span class="n">true_targets</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True line&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:],</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Best fit line&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
@@ -794,7 +818,7 @@ that manually, so set it to <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 <img alt="../../_images/sphx_glr_linear_regression_tutorial_004.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_linear_regression_tutorial_004.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.381 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  1.197 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-blog-content-linear-regression-linear-regression-tutorial-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" download="" href="../../_downloads/023c9334e6d74d6fd126ed1784f2b2e1/linear_regression_tutorial.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">linear_regression_tutorial.py</span></code></a></div>
