@@ -39,7 +39,7 @@ livehtml:
 doc:
 	python3 ipynb_to_gallery.py "./blog_content_source/**/*.ipynb" && \
 	make html && \
-	cp -r ./_build/html docs
+	cp -r ./_build/* docs
 
 clean-cache:
 	make clean
