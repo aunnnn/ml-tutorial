@@ -183,7 +183,7 @@ Let's see what these penalty terms mean geometrically.
 L2 loss surface
 ~~~~~~~~~~~~~~~
 
-.. figure:: ./img_l2_surface.png
+.. figure:: imgs/img_l2_surface.png
    :alt: img\_l2\_surface
 
    img\_l2\_surface
@@ -206,7 +206,7 @@ When you multiply the L2 norm function with lambda,
 The lowest (and flattest) one has lambda of 0.25, which you can see it
 penalizes The two subsequent ones has lambdas of 0.5 and 1.0.
 
-.. figure:: ./img_l2_surface_lambdas.png
+.. figure:: imgs/img_l2_surface_lambdas.png
    :alt: img\_l2\_surface\_lambdas
 
    img\_l2\_surface\_lambdas
@@ -216,7 +216,7 @@ L1 loss surface
 
 Below is the loss surface of L1 penalty:
 
-.. figure:: ./img_l1_surface.png
+.. figure:: imgs/img_l1_surface.png
    :alt: img\_l1\_surface
 
    img\_l1\_surface
@@ -230,7 +230,7 @@ Contour of different penalty terms
 If the L2 norm is 1, you get a unit circle (:math:`w_0^2 + w_1^2 = 1`).
 In the same manner, you get "unit" shapes in other norms:
 
-.. figure:: ./img_penalty_contours.png
+.. figure:: imgs/img_penalty_contours.png
    :alt: img\_penalty\_contours
 
    img\_penalty\_contours
@@ -262,7 +262,7 @@ First let's bring both linear regression and penalty loss surface
 together (left), and recall that we want to find the **minimum loss when
 both surfaces are summed up** (right):
 
-.. figure:: ./img_ridge_regression.png
+.. figure:: imgs/img_ridge_regression.png
    :alt: ridge
 
    ridge
@@ -270,7 +270,7 @@ both surfaces are summed up** (right):
 Ridge regression is like finding the middle point where the loss of a
 sum between linear regression and L2 penalty loss is lowest:
 
-.. figure:: ./img_ridge_sol_30.png
+.. figure:: imgs/img_ridge_sol_30.png
    :alt: ridge\_solution
 
    ridge\_solution
@@ -281,7 +281,7 @@ point), where the penalty loss is lowest. **The more lambda you set, the
 more you'll be drawn towards the origin, since you penalize the values
 of :math:`w_i` more** so it wants to get to where they're all zeros:
 
-.. figure:: ./img_ridge_sol_60.png
+.. figure:: imgs/img_ridge_sol_60.png
    :alt: ridge\_solution
 
    ridge\_solution
@@ -295,19 +295,19 @@ still right in the middle.
 
 For Lasso:
 
-.. figure:: ./img_lasso_regression.png
+.. figure:: imgs/img_lasso_regression.png
    :alt: lasso
 
    lasso
 
 And this is the Lasso solution for lambda = 30 and 60:
 
-.. figure:: ./img_lasso_sol_30.png
+.. figure:: imgs/img_lasso_sol_30.png
    :alt: lasso\_solution
 
    lasso\_solution
 
-.. figure:: ./img_lasso_sol_60.png
+.. figure:: imgs/img_lasso_sol_60.png
    :alt: lasso\_solution
 
    lasso\_solution
@@ -320,7 +320,7 @@ does a corner of L1 norm means in this situation? It means
 Again, this is because the contour lines **at the same loss value** of
 L2 norm reaches out much farther than L1 norm:
 
-.. figure:: ./img_l1_vs_l2_contour.png
+.. figure:: imgs/img_l1_vs_l2_contour.png
    :alt: img\_l1\_vs\_l2\_contour
 
    img\_l1\_vs\_l2\_contour
@@ -330,7 +330,6 @@ circle, then it will stop since there's no use to move sideways where
 the loss is usually higher. However, with L1 penalty, it can drift
 toward a corner, because it's **the same loss along the line** anyway (I
 mean, why not?) and thus is exploited, if the opportunity arises.
-
 
 
 **Total running time of the script:** ( 0 minutes  0.000 seconds)

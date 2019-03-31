@@ -68,7 +68,7 @@ A Complete Guide to Matrix Notation and Linear Regression
 # of the underlying linear relationship. We will show how this leads to
 # SSE loss later, but first let's visualize what we're trying to do.
 # 
-# .. figure:: ./img_lr_objective.png
+# .. figure:: imgs/img_lr_objective.png
 #    :alt: img
 # 
 #    img

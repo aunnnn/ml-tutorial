@@ -59,7 +59,11 @@ sphinx_gallery_conf = {
     'backreferences_dir': False
 }
 
+print("Custom sphinx-gallery script")
+print("-----------------------------")
+
 for i in range(len(sphinx_gallery_conf['examples_dirs'])):
+    print(i)
     gallery_dir = sphinx_gallery_conf['gallery_dirs'][i]
     source_dir = sphinx_gallery_conf['examples_dirs'][i]
     # Create gallery dirs if it doesn't exist
@@ -70,7 +74,13 @@ for i in range(len(sphinx_gallery_conf['examples_dirs'])):
 
     # Copy rst files from source dir to gallery dir
     for f in glob.glob(os.path.join(source_dir, '*.rst')):
+        print("Copying", f)
         shutil.copy(f, gallery_dir)
+
+    for img_folder in glob.glob(os.path.join(source_dir, '**/imgs')):
+        print("Copy imgs folder:", img_folder)
+        dst = os.path.join(gallery_dir, '/'.join(img_folder.split('/')[1:]))
+        shutil.copytree(img_folder, dst)
 
 # ------------------------------------------------------------------------------
 #
