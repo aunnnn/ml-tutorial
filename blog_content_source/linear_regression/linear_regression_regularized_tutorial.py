@@ -184,7 +184,7 @@ Linear Regression with Regularization
 # L2 loss surface
 # ~~~~~~~~~~~~~~~
 # 
-# .. figure:: ./imgs/img_l2_surface.png
+# .. figure:: ./img_l2_surface.png
 #    :alt: img\_l2\_surface
 # 
 #    img\_l2\_surface
@@ -207,7 +207,7 @@ Linear Regression with Regularization
 # The lowest (and flattest) one has lambda of 0.25, which you can see it
 # penalizes The two subsequent ones has lambdas of 0.5 and 1.0.
 # 
-# .. figure:: ./imgs/img_l2_surface_lambdas.png
+# .. figure:: ./img_l2_surface_lambdas.png
 #    :alt: img\_l2\_surface\_lambdas
 # 
 #    img\_l2\_surface\_lambdas
@@ -217,7 +217,7 @@ Linear Regression with Regularization
 # 
 # Below is the loss surface of L1 penalty:
 # 
-# .. figure:: ./imgs/img_l1_surface.png
+# .. figure:: ./img_l1_surface.png
 #    :alt: img\_l1\_surface
 # 
 #    img\_l1\_surface
@@ -231,7 +231,7 @@ Linear Regression with Regularization
 # If the L2 norm is 1, you get a unit circle (:math:`w_0^2 + w_1^2 = 1`).
 # In the same manner, you get "unit" shapes in other norms:
 # 
-# .. figure:: ./imgs/img_penalty_contours.png
+# .. figure:: ./img_penalty_contours.png
 #    :alt: img\_penalty\_contours
 # 
 #    img\_penalty\_contours
@@ -264,7 +264,7 @@ Linear Regression with Regularization
 # together (left), and recall that we want to find the **minimum loss when
 # both surfaces are summed up** (right):
 # 
-# .. figure:: ./imgs/img_ridge_regression.png
+# .. figure:: ./img_ridge_regression.png
 #    :alt: ridge
 # 
 #    ridge
@@ -272,7 +272,7 @@ Linear Regression with Regularization
 # Ridge regression is like finding the middle point where the loss of a
 # sum between linear regression and L2 penalty loss is lowest:
 # 
-# .. figure:: ./imgs/img_ridge_sol_30.png
+# .. figure:: ./img_ridge_sol_30.png
 #    :alt: ridge\_solution
 # 
 #    ridge\_solution
@@ -283,7 +283,7 @@ Linear Regression with Regularization
 # more you'll be drawn towards the origin, since you penalize the values
 # of :math:`w_i` more** so it wants to get to where they're all zeros:
 # 
-# .. figure:: ./imgs/img_ridge_sol_60.png
+# .. figure:: ./img_ridge_sol_60.png
 #    :alt: ridge\_solution
 # 
 #    ridge\_solution
@@ -297,19 +297,19 @@ Linear Regression with Regularization
 # 
 # For Lasso:
 # 
-# .. figure:: ./imgs/img_lasso_regression.png
+# .. figure:: ./img_lasso_regression.png
 #    :alt: lasso
 # 
 #    lasso
 # 
 # And this is the Lasso solution for lambda = 30 and 60:
 # 
-# .. figure:: ./imgs/img_lasso_sol_30.png
+# .. figure:: ./img_lasso_sol_30.png
 #    :alt: lasso\_solution
 # 
 #    lasso\_solution
 # 
-# .. figure:: ./imgs/img_lasso_sol_60.png
+# .. figure:: ./img_lasso_sol_60.png
 #    :alt: lasso\_solution
 # 
 #    lasso\_solution
@@ -322,7 +322,7 @@ Linear Regression with Regularization
 # Again, this is because the contour lines **at the same loss value** of
 # L2 norm reaches out much farther than L1 norm:
 # 
-# .. figure:: ./imgs/img_l1_vs_l2_contour.png
+# .. figure:: ./img_l1_vs_l2_contour.png
 #    :alt: img\_l1\_vs\_l2\_contour
 # 
 #    img\_l1\_vs\_l2\_contour
@@ -333,3 +333,4 @@ Linear Regression with Regularization
 # toward a corner, because it's **the same loss along the line** anyway (I
 # mean, why not?) and thus is exploited, if the opportunity arises.
 # 
+

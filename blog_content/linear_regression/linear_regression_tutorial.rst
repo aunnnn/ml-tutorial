@@ -73,7 +73,7 @@ from the assumption that there is **Gaussian noise in our observation**
 of the underlying linear relationship. We will show how this leads to
 SSE loss later, but first let's visualize what we're trying to do.
 
-.. figure:: ./imgs/img_lr_objective.png
+.. figure:: ./img_lr_objective.png
    :alt: img
 
    img
@@ -1112,7 +1112,7 @@ And the result is the same:
 
 
 
-**Total running time of the script:** ( 0 minutes  1.197 seconds)
+**Total running time of the script:** ( 0 minutes  0.962 seconds)
 
 
 .. _sphx_glr_download_blog_content_linear_regression_linear_regression_tutorial.py:
