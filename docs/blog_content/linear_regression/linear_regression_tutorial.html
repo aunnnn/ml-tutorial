@@ -1,0 +1,881 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>A Complete Guide to Matrix Notation and Linear Regression &mdash; ML Tutorial  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Linear Regression with Regularization" href="linear_regression_regularized_tutorial.html" />
+    <link rel="prev" title="Welcome to ML Tutorial’s documentation!" href="../../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ML Tutorial
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">A Complete Guide to Matrix Notation and Linear Regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-sum-of-squared-error-loss">The Sum of Squared Error Loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-find-the-optimal-solution">How to Find the Optimal Solution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#going-into-matrix-notation">Going into Matrix Notation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#always-a-column-vector">1. Always a <em>column</em> vector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feature-matrix-x-is-rows-of-data-points">2. Feature matrix <span class="math notranslate nohighlight">\(X\)</span> is rows of data points</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#again-w-is-a-column-vector">3. Again, <span class="math notranslate nohighlight">\(w\)</span> is a column vector</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dot-products-of-rows-in-matrix-x-with-vector-w-is-xw">4. Dot products of rows in matrix <span class="math notranslate nohighlight">\(X\)</span> with vector <span class="math notranslate nohighlight">\(w\)</span> is <span class="math notranslate nohighlight">\(Xw\)</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sum-of-squared-is-x-tx">5. Sum of Squared is <span class="math notranslate nohighlight">\(x^Tx\)</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-sse-loss-in-matrix-notation">Writing SSE Loss in Matrix Notation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#deriving-a-closed-form-solution">Deriving a Closed-form Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-numpy-example">A NumPy Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-data-points">Creating data points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualize-our-data-points-with-respect-to-the-true-line">Visualize our data points with respect to the true line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-a-closed-form-solution">Compute a closed-form solution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualize-best-fit-line-vs-true-target-line">Visualize best fit line vs. true target line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#understanding-the-result">Understanding the result</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualize-the-loss-surface">Visualize the loss surface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#using-sklearn">Using sklearn</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="linear_regression_regularized_tutorial.html">Linear Regression with Regularization</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ML Tutorial</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>A Complete Guide to Matrix Notation and Linear Regression</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/blog_content/linear_regression/linear_regression_tutorial.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Click <a class="reference internal" href="#sphx-glr-download-blog-content-linear-regression-linear-regression-tutorial-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="a-complete-guide-to-matrix-notation-and-linear-regression">
+<span id="sphx-glr-blog-content-linear-regression-linear-regression-tutorial-py"></span><h1>A Complete Guide to Matrix Notation and Linear Regression<a class="headerlink" href="#a-complete-guide-to-matrix-notation-and-linear-regression" title="Permalink to this headline">¶</a></h1>
+<p>Let’s really understand matrix notation in context of linear regression,
+from the ground up.</p>
+<p>Linear Regression finds the best line, or <em>hyperplane</em> <span class="math notranslate nohighlight">\(\hat{y}\)</span>
+in higher dimension, or generally a function <span class="math notranslate nohighlight">\(f\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\hat{y} = f(x) = wx\]</div>
+<p>that fits the whole data. This is just a dot product between vector
+<span class="math notranslate nohighlight">\(w\)</span> and a data point <span class="math notranslate nohighlight">\(x\)</span> in <span class="math notranslate nohighlight">\(d\)</span> dimension:</p>
+<div class="math notranslate nohighlight">
+\[\hat{y} = w_0 + w_1x_1 + w_2x_2 + ... + w_dx_d\]</div>
+<p>Notice that we use <span class="math notranslate nohighlight">\(w_0\)</span> as an intercept term, and thus we need to
+add a dummy dimension with value of “1” (<span class="math notranslate nohighlight">\(x_0\)</span>) for all data
+points <span class="math notranslate nohighlight">\(x\)</span>. Thus, <span class="math notranslate nohighlight">\(x\)</span> here is on <span class="math notranslate nohighlight">\(d+1\)</span> dimension.
+Think of it as the y-intercept term <span class="math notranslate nohighlight">\(c\)</span> in 2-dimension
+(<span class="math notranslate nohighlight">\(y = mx + c\)</span>).</p>
+<p>Another way to look at this is that <span class="math notranslate nohighlight">\(f(x)\)</span> transforms a data point
+<span class="math notranslate nohighlight">\(x\)</span> on <span class="math notranslate nohighlight">\(d+1\)</span> dimension into a predicted scalar value
+<span class="math notranslate nohighlight">\(\hat{y}\)</span> that is close to target <span class="math notranslate nohighlight">\(y\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{bmatrix}
+x_0 \\
+x_1 \\
+\vdots \\
+x_d
+\end{bmatrix}
+\xrightarrow{f}
+\hat{y}
+\approx y\end{split}\]</div>
+<div class="section" id="the-sum-of-squared-error-loss">
+<h2>The Sum of Squared Error Loss<a class="headerlink" href="#the-sum-of-squared-error-loss" title="Permalink to this headline">¶</a></h2>
+<p>The best way to solve this is to find <span class="math notranslate nohighlight">\(w\)</span> that minimizes the <strong>sum
+of squared errors (SSE)</strong><span class="math notranslate nohighlight">\(^\dagger\)</span>, or the “error” between all
+of predicted value <span class="math notranslate nohighlight">\(\hat{y}^i\)</span> and the target <span class="math notranslate nohighlight">\(y^i\)</span> of
+<span class="math notranslate nohighlight">\(i^{th}\)</span> data point for <span class="math notranslate nohighlight">\(i = 1\)</span> to <span class="math notranslate nohighlight">\(n\)</span>, writing this
+as a loss function <span class="math notranslate nohighlight">\(L(w)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[L(w) = \sum_{i=1}^{n} \left( y^i - \hat{y}^i \right)^2 = \sum_{i=1}^{n} \left( y^i - wx^i \right)^2\]</div>
+<p>From now on we refer to a data point (d+1 vector) as <span class="math notranslate nohighlight">\(x^i\)</span> and its
+corresponding target (scalar) as <span class="math notranslate nohighlight">\(y^i\)</span>.</p>
+<p>Surprisingly, the SSE loss is not from someone’s intuition, but it’s
+from the assumption that there is <strong>Gaussian noise in our observation</strong>
+of the underlying linear relationship. We will show how this leads to
+SSE loss later, but first let’s visualize what we’re trying to do.</p>
+<div class="figure" id="id1">
+<img alt="img" src="blog_content/linear_regression/./imgs/img_lr_objective.png" />
+<p class="caption"><span class="caption-text">img</span></p>
+</div>
+<ol class="arabic">
+<li><p class="first">There is a true line, the true linear relationship that we want to
+discover (blue line).</p>
+</li>
+<li><p class="first">The data points are then observed through noise <strong>deviating from that
+line, with Gaussian distribution</strong>.</p>
+</li>
+<li><p class="first">Suppose we predict a random line (red), not the best one yet.</p>
+</li>
+<li><p class="first">We calculate the distance or difference between the predicted points
+(along the line) and the actual data points. This is then <strong>squared
+and sum up to get sum of squared error</strong>.</p>
+<blockquote>
+<div><p>Linear regression is the method to get the line that fits the given
+data with the minimum sum of squared error.</p>
+</div></blockquote>
+</li>
+</ol>
+<p><em>Note: I know it’s confusing for the first time, but you’ll get used to
+using superscript for indexing data points…</em></p>
+<div class="section" id="how-to-find-the-optimal-solution">
+<h3>How to Find the Optimal Solution<a class="headerlink" href="#how-to-find-the-optimal-solution" title="Permalink to this headline">¶</a></h3>
+<p>An optimal solution (<span class="math notranslate nohighlight">\(w\)</span>) for this equation can be found either
+using <em>closed-form solution</em> or via iterative methods like gradient
+descent.</p>
+<p><strong>A closed-form solution</strong> means we figure out the formula for
+<span class="math notranslate nohighlight">\(w = ...\)</span>. Implementing that formula in a program directly solves
+the problem. The thing is you have to come up with the correct one
+yourself, by hand.</p>
+<p>Do you remember how to find a minimum (or maximum) value for a function?
+We take the derivative of the function above with respect to <span class="math notranslate nohighlight">\(w\)</span>,
+set it to zero, and solve for the <span class="math notranslate nohighlight">\(w\)</span> in terms of other
+parameters. This is like taking a single jump to the optimal value. We
+do all the hard work for computers.</p>
+<p>Luckily we can do this for linear regression, but not all loss functions
+be solved this way, actually, only a few. In those cases, we use
+<strong>iterative methods like gradient descent</strong> to search for the solution.
+In contrast to closed-form solution, we do not jump directly to the
+optimal answer, instead, we take many steps that lead us near to where
+the optimal answer lives.</p>
+<p>Next let’s derive the closed-form solution for linear regression. In
+order to do that efficiently, we need some matrix notations.</p>
+</div>
+</div>
+<div class="section" id="going-into-matrix-notation">
+<h2>Going into Matrix Notation<a class="headerlink" href="#going-into-matrix-notation" title="Permalink to this headline">¶</a></h2>
+<p>Writing things down in matrix notation makes things much faster in
+NumPy. <strong>But it’s not easy to read matrix notation, especially if you
+study machine learning on your own.</strong> There’re things like dot product,
+matrix multiplication, transpose and stuff that you need to keep track
+of in your head. If you’re starting out, then please write them on
+papers, drawing figures as needed to make you understand. It really pays
+off.</p>
+<p>On top of that, these few <strong>key standards</strong> will make our lives with
+linear algebra easier:</p>
+<div class="section" id="always-a-column-vector">
+<h3>1. Always a <em>column</em> vector<a class="headerlink" href="#always-a-column-vector" title="Permalink to this headline">¶</a></h3>
+<p>When you see standalone vectors in a matrix notation formula, assumes
+it’s a column vector. E.g.,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}x =
+\begin{bmatrix}
+1 \\
+2 \\
+3 \\
+\end{bmatrix}\end{split}\]</div>
+<p>and so its transpose is a row vector,</p>
+<div class="math notranslate nohighlight">
+\[x^T =
+\begin{bmatrix}
+1 &amp; 2 &amp; 3
+\end{bmatrix}\]</div>
+<p>Likewise, you should try to make the final result of matrix operation to
+be a column vector.</p>
+<p>Note that the NumPy vector created by <code class="docutils literal notranslate"><span class="pre">np.zeros</span></code>, <code class="docutils literal notranslate"><span class="pre">np.arange</span></code>, etc.,
+is not really a column vector. It has only one dimension <code class="docutils literal notranslate"><span class="pre">(N,)</span></code>. So,
+you cannot transpose it directly (<code class="docutils literal notranslate"><span class="pre">x.T</span></code> still gives you <code class="docutils literal notranslate"><span class="pre">x</span></code>.) To
+convert it to a column vector, we use <code class="docutils literal notranslate"><span class="pre">x.reshape(N,1)</span></code> or
+<code class="docutils literal notranslate"><span class="pre">x[:,</span> <span class="pre">None]</span></code>.</p>
+</div>
+<div class="section" id="feature-matrix-x-is-rows-of-data-points">
+<h3>2. Feature matrix <span class="math notranslate nohighlight">\(X\)</span> is rows of data points<a class="headerlink" href="#feature-matrix-x-is-rows-of-data-points" title="Permalink to this headline">¶</a></h3>
+<p>Our data points <span class="math notranslate nohighlight">\(x^i\)</span> are on <span class="math notranslate nohighlight">\(d+1\)</span> dimension, and there is
+<span class="math notranslate nohighlight">\(n\)</span> of them, we store them all in a 2-d matrix <span class="math notranslate nohighlight">\(X\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}X = \begin{align}
+\underset{n\times d}
+{\begin{bmatrix}
+\longleftarrow &amp; x^1 &amp; \longrightarrow \\
+\longleftarrow &amp; x^2 &amp; \longrightarrow \\
+&amp; \vdots &amp; \\
+\longleftarrow &amp; x^n &amp; \longrightarrow \\
+\end{bmatrix}}
+\end{align}\end{split}\]</div>
+<p>Each row in <span class="math notranslate nohighlight">\(X\)</span> is a row vector for each data point. Also note
+that we use uppercase letter for matrix.</p>
+<div class="section" id="again-w-is-a-column-vector">
+<h4>3. Again, <span class="math notranslate nohighlight">\(w\)</span> is a column vector<a class="headerlink" href="#again-w-is-a-column-vector" title="Permalink to this headline">¶</a></h4>
+<p>Like the first point, our <span class="math notranslate nohighlight">\(w\)</span> will be <span class="math notranslate nohighlight">\(d+1\)</span> dimension column
+vector with w_0 as an intercept term:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}w =
+\begin{bmatrix}
+w_0 \\
+w_1 \\
+\vdots \\
+w_d
+\end{bmatrix}\end{split}\]</div>
+</div>
+</div>
+<div class="section" id="dot-products-of-rows-in-matrix-x-with-vector-w-is-xw">
+<h3>4. Dot products of rows in matrix <span class="math notranslate nohighlight">\(X\)</span> with vector <span class="math notranslate nohighlight">\(w\)</span> is <span class="math notranslate nohighlight">\(Xw\)</span><a class="headerlink" href="#dot-products-of-rows-in-matrix-x-with-vector-w-is-xw" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes we want the dot product of each row in matrix with a vector:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}Xw = \underset{n\times (d+1)}
+{
+    \begin{bmatrix}
+    \longleftarrow &amp; x^1 &amp; \longrightarrow \\
+    \longleftarrow &amp; x^2 &amp; \longrightarrow \\
+    &amp; \vdots &amp; \\
+    \longleftarrow &amp; x^n &amp; \longrightarrow \\
+    \end{bmatrix}
+}
+\underset{(d+1) \times 1}
+{
+    \begin{bmatrix}
+    \uparrow \\
+    w \\
+    \downarrow
+    \end{bmatrix}
+}
+=
+\begin{bmatrix}
+x^1w \\
+x^2w \\
+\vdots \\
+x^nw
+\end{bmatrix}\end{split}\]</div>
+<p>given that <span class="math notranslate nohighlight">\(X\)</span> contains rows of vectors we want to dot product
+with.</p>
+<p>Interestingly, this gives us a column vector of our predictions
+<span class="math notranslate nohighlight">\(\hat{y}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{bmatrix}
+x^1w \\
+x^2w \\
+\vdots \\
+x^nw
+\end{bmatrix} =
+\begin{bmatrix}
+\hat{y}^1 \\
+\hat{y}^2 \\
+\vdots \\
+\hat{y}^n \\
+\end{bmatrix} = \hat{y}\end{split}\]</div>
+<p>It’s also good to remind yourself that it sums along dimension of
+<span class="math notranslate nohighlight">\(x^i\)</span> and <span class="math notranslate nohighlight">\(w\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}Xw =
+\begin{bmatrix}
+\sum_{j=0}^{d} x_j^1w_j \\
+\sum_{j=0}^{d} x_j^2w_j \\
+\vdots \\
+\sum_{j=0}^{d} x_j^nw_j \\
+\end{bmatrix}\end{split}\]</div>
+</div>
+<div class="section" id="sum-of-squared-is-x-tx">
+<h3>5. Sum of Squared is <span class="math notranslate nohighlight">\(x^Tx\)</span><a class="headerlink" href="#sum-of-squared-is-x-tx" title="Permalink to this headline">¶</a></h3>
+<p>This is a useful pattern to memorize. Sometimes we want the sum of
+squared of each element in arbitrary d-dimension vector <span class="math notranslate nohighlight">\(x\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{j=1}^{d} x_i^2\]</div>
+<p>which is simply <span class="math notranslate nohighlight">\(x^Tx\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}x^Tx =
+\begin{bmatrix}
+x_1 &amp; ... &amp; x_d
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\
+\vdots \\
+x_d
+\end{bmatrix}
+= \sum_{j=1}^{d} x_i^2\end{split}\]</div>
+<p>Notice that the result of <span class="math notranslate nohighlight">\(x^Tx\)</span> is scalar, e.g., a number.</p>
+<p>In fancy term,
+<span class="math notranslate nohighlight">\({\left\lVert x \right\rVert} = \sqrt{\sum_{j=1}^{d} x_i^2}\)</span> is
+L2-norm (or Euclidean norm) of <span class="math notranslate nohighlight">\(x\)</span>. So we can write sum of squared
+as <span class="math notranslate nohighlight">\({\left\lVert x \right\rVert}^2 = \sum_{j=1}^{d} x_i^2\)</span>. For
+now, let’s not care what norm actually means.</p>
+</div>
+<div class="section" id="writing-sse-loss-in-matrix-notation">
+<h3>Writing SSE Loss in Matrix Notation<a class="headerlink" href="#writing-sse-loss-in-matrix-notation" title="Permalink to this headline">¶</a></h3>
+<p>Now you’re ready, let’s write the above SSE loss function in matrix
+notation. If you look at <span class="math notranslate nohighlight">\(L(w)\)</span> closely, it’s a sum of squared of
+vector <span class="math notranslate nohighlight">\(y - \hat{y}\)</span>. This means we can kick-off by applying our
+fifth trick:</p>
+<div class="math notranslate nohighlight">
+\[L(w) = {\left\lVert y - \hat{y} \right\rVert}^2\]</div>
+<p>Next we just have to find <span class="math notranslate nohighlight">\(y - \hat{y}\)</span>. First we encode target
+<span class="math notranslate nohighlight">\(y\)</span> in a long column vector of shape <code class="docutils literal notranslate"><span class="pre">[n,</span> <span class="pre">1]</span></code>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}y =
+\begin{bmatrix}
+y^1 \\
+y^2 \\
+\vdots \\
+y^n
+\end{bmatrix}\end{split}\]</div>
+<p>(Remember that we use superscript for indexing the <span class="math notranslate nohighlight">\(i^{th}\)</span> data
+point.)</p>
+<p>Next we encode each of our predicted values (<span class="math notranslate nohighlight">\(\hat{y}^i\)</span>) in a
+column vector <span class="math notranslate nohighlight">\(\hat{y}\)</span>. Since <span class="math notranslate nohighlight">\(\hat{y}^i\)</span> is a dot product
+between <span class="math notranslate nohighlight">\(w\)</span> and each of <span class="math notranslate nohighlight">\(x^i\)</span>, we can apply
+<a class="reference external" href="#4.-Dot-products-of-rows-in-matrix-$X$-with-vector-$w$-is-$Xw$">4</a>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+y - \hat{y} &amp;=
+\begin{bmatrix}
+y^1 \\
+y^2 \\
+\vdots \\
+y^n
+\end{bmatrix}
+- \begin{bmatrix}
+\hat{y}^1 \\
+\hat{y}^2 \\
+\vdots \\
+\hat{y}^n
+\end{bmatrix} &amp;&amp; \text{(Error between target and predicted)} \\ &amp;=
+\begin{bmatrix}
+y^1 \\
+y^2 \\
+\vdots \\
+y^n
+\end{bmatrix}
+- \begin{bmatrix}
+x^1w \\
+x^2w \\
+\vdots \\
+x^nw
+\end{bmatrix}
+&amp;&amp; \text{(Predicted is a dot product of $w$ and each of data point $x^i$)} \\ &amp;=
+\underset{n\times 1}
+{
+    \begin{bmatrix}
+    y^1 \\
+    y^2 \\
+    \vdots \\
+    y^n
+    \end{bmatrix}
+}
+- \underset{n\times (d+1)}
+{
+    \begin{bmatrix}
+    \longleftarrow &amp; x^1 &amp; \longrightarrow \\
+    \longleftarrow &amp; x^2 &amp; \longrightarrow \\
+    &amp; \vdots &amp; \\
+    \longleftarrow &amp; x^n &amp; \longrightarrow \\
+    \end{bmatrix}
+}
+\underset{(d+1)\times 1}
+{
+    \begin{bmatrix}
+    \uparrow \\
+    w \\
+    \downarrow
+    \end{bmatrix}
+} &amp;&amp; \text{(Separate them out)} \\ &amp;=
+y - Xw &amp;&amp; \text{(Encode in matrix/vector form)}
+\end{align}\end{split}\]</div>
+<p>Putting all together we get our loss function for linear regression:</p>
+<div class="math notranslate nohighlight">
+\[L(w) = {\left\lVert y - Xw \right\rVert}^2\]</div>
+<p>In NumPy code, we can compute <span class="math notranslate nohighlight">\(L(w) = (y - Xw)^T(y - Xw)\)</span>.</p>
+<p>There’s no intuitive way to come up with this nice formula the first
+time you saw it. You have to work it out and put things together
+yourself. Then you’ll start to memorize the pattern and it’ll become
+easier.</p>
+</div>
+</div>
+<div class="section" id="deriving-a-closed-form-solution">
+<h2>Deriving a Closed-form Solution<a class="headerlink" href="#deriving-a-closed-form-solution" title="Permalink to this headline">¶</a></h2>
+<p>To do that, we’ll take derivative of <span class="math notranslate nohighlight">\(L(w)\)</span> with respect to
+<span class="math notranslate nohighlight">\(w\)</span>, set to zero and solve for <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p>Writing matrix notation is already hard, taking derivative of it is even
+harder. I recommend writing out partial derivatives to see what happens.
+For <span class="math notranslate nohighlight">\(L(w) = L_w\)</span>, we have to take derivative with respect to each
+dimension of <span class="math notranslate nohighlight">\(w\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\nabla L_w =
+\begin{bmatrix}
+\frac{\partial L}{\partial w_0} \\
+\frac{\partial L}{\partial w_1} \\
+\vdots \\
+\frac{\partial L}{\partial w_d} \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{\partial \sum_{i=1}^{n} \left( y^i - wx^i \right)^2}{\partial w_0} \\
+\frac{\partial \sum_{i=1}^{n} \left( y^i - wx^i \right)^2}{\partial w_1} \\
+\vdots \\
+\frac{\partial \sum_{i=1}^{n} \left( y^i - wx^i \right)^2}{\partial w_d}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{\partial \sum_{i=1}^{n} \left( y^i - wx^i \right)^2}{\partial w_0} \\
+\frac{\partial \sum_{i=1}^{n} \left( y^i - wx^i \right)^2}{\partial w_1} \\
+\vdots \\
+\frac{\partial \sum_{i=1}^{n} \left( y^i - wx^i \right)^2}{\partial w_d}
+\end{bmatrix}
+=
+\underset{(d+1) \times 1}
+{
+\begin{bmatrix}
+-2\sum_{i=1}^{n} x^i_0 \left( y^i - wx^i \right) \\
+-2\sum_{i=1}^{n} x^i_1 \left( y^i - wx^i \right) \\
+\vdots \\
+-2\sum_{i=1}^{n} x^i_d \left( y^i - wx^i \right) \\
+\end{bmatrix}
+}\end{split}\]</div>
+<p>Looks like we might be able to apply our fourth point (<span class="math notranslate nohighlight">\(Xw\)</span>, but
+in this case <span class="math notranslate nohighlight">\(w\)</span> is <span class="math notranslate nohighlight">\((y - Xw)\)</span>. But unlike our fourth point,
+we now sum along data points (<span class="math notranslate nohighlight">\(n\)</span>) instead of dimensions
+(<span class="math notranslate nohighlight">\(d\)</span>). For this, we want each row of <span class="math notranslate nohighlight">\(X\)</span> to be one given
+dimension along all data points instead of one data point with all
+dimensions, and thus we use <span class="math notranslate nohighlight">\(X^T\)</span> instead of <span class="math notranslate nohighlight">\(X\)</span>. Finally,
+here’s the full derivative in matrix notation:</p>
+<div class="math notranslate nohighlight">
+\[\nabla L_w = -2X^T(y-Xw)\]</div>
+<p>Setting to zero and solve:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+0 &amp;= -2X^T(y-Xw) \\
+&amp;= X^T(y-Xw)     \\
+&amp;= X^Ty - X^TXw
+\end{align}\end{split}\]</div>
+<p>Move <span class="math notranslate nohighlight">\(X^TX\)</span> to other side and we get a closed-form solution:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+X^TXw &amp;= X^Ty    \\
+w &amp;= (X^TX)^{-1}X^Ty
+\end{align}\end{split}\]</div>
+<p>In NumPy, this is:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">)</span> <span class="o">@</span> <span class="n">X</span> <span class="o">@</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-numpy-example">
+<h2>A NumPy Example<a class="headerlink" href="#a-numpy-example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We will create a fake dataset from the underlying equation
+<span class="math notranslate nohighlight">\(y = 2x + 7\)</span>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">true_target</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+  <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p>In practical settings, there is no way we know this exact equation. We
+only get <strong>observed</strong> targets, and there’s some <strong>noise</strong> on it. The
+reason is that it’s impossible to measure any data out there in the
+world perfectly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">observed_target</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Underlying data with Gaussian noise added&quot;&quot;&quot;</span>
+  <span class="n">normal_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">()</span> <span class="o">*</span> <span class="mi">3</span>
+  <span class="k">return</span> <span class="n">true_target</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">normal_noise</span>
+</pre></div>
+</div>
+<div class="section" id="creating-data-points">
+<h3>Creating data points<a class="headerlink" href="#creating-data-points" title="Permalink to this headline">¶</a></h3>
+<p>Next, make 50 data points, observations and targets:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="c1"># Features, X is [1,50]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+
+<span class="c1"># Observed targets</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">observed_target</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Adding dummy dimension term to each <span class="math notranslate nohighlight">\(x^i\)</span>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Append 1 for intercept term later</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Note that it <strong>doesn’t matter</strong> here whether we add it to the front or
+back, it will simply reflect correspondingly in our solution <span class="math notranslate nohighlight">\(w\)</span>.</p>
+</div>
+<div class="section" id="visualize-our-data-points-with-respect-to-the-true-line">
+<h3>Visualize our data points with respect to the true line<a class="headerlink" href="#visualize-our-data-points-with-respect-to-the-true-line" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For plotting</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span> <span class="c1"># exclude the intercept for plotting</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">y</span>
+<span class="n">true_targets</span> <span class="o">=</span> <span class="n">true_target</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Observed data points&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">true_targets</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True target line y = 2x + 7&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Feature&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Target&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;True and observed data points&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_linear_regression_tutorial_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_linear_regression_tutorial_001.png" />
+</div>
+<div class="section" id="compute-a-closed-form-solution">
+<h3>Compute a closed-form solution<a class="headerlink" href="#compute-a-closed-form-solution" title="Permalink to this headline">¶</a></h3>
+<p>Our goal is to get the line that is closest to that true target (blue)
+line as possible, without the knowledge of its existence. For this we
+use linear regression to fit observed data points by following the
+formula from the previous section:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>w = np.linalg.inv(X.T @ X) @ X.T @ y
+</pre></div>
+</div>
+<p>To predict, we compute <span class="math notranslate nohighlight">\(\hat{y} = xw\)</span> for each data point
+<span class="math notranslate nohighlight">\(x^i\)</span>. Here we predict the training set (<code class="docutils literal notranslate"><span class="pre">X</span></code>) itself:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>predicted = X @ w # y_hat
+</pre></div>
+</div>
+<p>To predict a set of new points, you just make it the same format as
+<code class="docutils literal notranslate"><span class="pre">X</span></code>, e.g., rows of data points.</p>
+</div>
+<div class="section" id="visualize-best-fit-line-vs-true-target-line">
+<h3>Visualize best fit line vs. true target line<a class="headerlink" href="#visualize-best-fit-line-vs-true-target-line" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data points&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">true_targets</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True target line&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Best fit line&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Feature&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Target&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_linear_regression_tutorial_002.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_linear_regression_tutorial_002.png" />
+<p>That’s pretty close.</p>
+</div>
+<div class="section" id="understanding-the-result">
+<h3>Understanding the result<a class="headerlink" href="#understanding-the-result" title="Permalink to this headline">¶</a></h3>
+<p>And our <span class="math notranslate nohighlight">\(w\)</span> is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[[7.00426874]
+ [2.08162643]]
+</pre></div>
+</div>
+<p>Since we append ones in front of each data point <span class="math notranslate nohighlight">\(x\)</span>, <code class="docutils literal notranslate"><span class="pre">w[0]</span></code>
+will be the intercept term and <code class="docutils literal notranslate"><span class="pre">w[1]</span></code> will be the slope. So our
+predicted line will be in the format of <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">w[1]*x</span> <span class="pre">+</span> <span class="pre">w[0]</span></code>. Recall
+the <em>true</em> equation <span class="math notranslate nohighlight">\(y = 2x + 7\)</span>, you can see that we almost got
+the true slope (2):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;Our slope is&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Our slope is 2.081626431082087
+</pre></div>
+</div>
+<p>The intercept seems a little off, but that’s okay because our data is in
+a big range (<span class="math notranslate nohighlight">\(x \in [0, 50], y \in [7, 107]\)</span>). If we normalize the
+data into <span class="math notranslate nohighlight">\([0, 1]\)</span> range, expect it to be much closer.</p>
+<p>Below is our sum of squared error for the best fit line. Note that the
+number doesn’t mean anything much, apart from that this is the least
+possible loss we would get from any lines that try to fit the data:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>diff = (y - X @ w)
+loss = diff.T @ diff
+print(loss)
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[[368.25248566]]
+</pre></div>
+</div>
+<p>If you don’t want intermediate variable, you can use <code class="docutils literal notranslate"><span class="pre">np.linalg.norm</span></code>,
+but to get the sum of squared loss, you have to square that after:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>loss = np.linalg.norm(y - X @ w, ord=2) ** 2
+print(loss)
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>368.252485661978
+</pre></div>
+</div>
+</div>
+<div class="section" id="visualize-the-loss-surface">
+<h3>Visualize the loss surface<a class="headerlink" href="#visualize-the-loss-surface" title="Permalink to this headline">¶</a></h3>
+<p>Let’s confirm that our solution is really the one with lowest loss by
+seeing the loss surface.</p>
+<p>Our loss function <span class="math notranslate nohighlight">\(L(w)\)</span> depends on two dimensions of <span class="math notranslate nohighlight">\(w\)</span>,
+e.g., <code class="docutils literal notranslate"><span class="pre">w[0]</span></code> and <code class="docutils literal notranslate"><span class="pre">w[1]</span></code>. If we plot <span class="math notranslate nohighlight">\(L(w)\)</span> over possible
+values of <code class="docutils literal notranslate"><span class="pre">w[0]</span></code> and <code class="docutils literal notranslate"><span class="pre">w[1]</span></code>, the minimum of <span class="math notranslate nohighlight">\(L(w)\)</span> should be
+near <code class="docutils literal notranslate"><span class="pre">w</span> <span class="pre">=</span> <span class="pre">[5.17,2.066]</span></code>, which is our solution.</p>
+<p>To plot that out, first we have to create all possible values of w[0]
+and w[1] in a grid.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+
+<span class="c1"># Ranges of w0 and w1 to see, centering at the true line</span>
+<span class="n">spanning_radius</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">w0range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">7</span><span class="o">-</span><span class="n">spanning_radius</span><span class="p">,</span> <span class="mi">7</span><span class="o">+</span><span class="n">spanning_radius</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="n">w1range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="o">-</span><span class="n">spanning_radius</span><span class="p">,</span> <span class="mi">2</span><span class="o">+</span><span class="n">spanning_radius</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="n">w0grid</span><span class="p">,</span> <span class="n">w1grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">w0range</span><span class="p">,</span> <span class="n">w1range</span><span class="p">)</span>
+
+<span class="n">range_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">w0range</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Number of values in each axis:&quot;</span><span class="p">,</span> <span class="n">range_len</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Number of values in each axis: 400
+</pre></div>
+</div>
+<p>This means we’ll look into a total of 400*400 = 160,000 values of
+<code class="docutils literal notranslate"><span class="pre">w</span></code>. We have to calculate loss for each pair of <code class="docutils literal notranslate"><span class="pre">w0,</span> <span class="pre">w1</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span># Make [w0, w1] in (2, 14400) shape
+all_w0w1_values = np.hstack([w0grid.flatten()[:,None], w1grid.flatten()[:,None]]).T
+
+# Compute all losses, reshape back to grid format
+all_losses = (np.linalg.norm(y - (X @ all_w0w1_values), axis=0, ord=2) ** 2).reshape((range_len, range_len))
+</pre></div>
+</div>
+<p>Then, we can plot the loss surface (with minimum at the red point):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">gca</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">w0grid</span><span class="p">,</span> <span class="n">w1grid</span><span class="p">,</span> <span class="n">all_losses</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">w0grid</span><span class="p">,</span> <span class="n">w1grid</span><span class="p">,</span> <span class="n">all_losses</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">loss</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Minimum point (5.9,2.2)&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;w[0]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;w[1]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;L(w)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">7</span><span class="o">-</span><span class="n">spanning_radius</span><span class="p">,</span> <span class="mi">7</span><span class="o">+</span><span class="n">spanning_radius</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="o">-</span><span class="n">spanning_radius</span><span class="p">,</span> <span class="mi">2</span><span class="o">+</span><span class="n">spanning_radius</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zticks</span><span class="p">([</span><span class="n">loss</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_linear_regression_tutorial_003.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_linear_regression_tutorial_003.png" />
+<p>You can notice the bowl <strong>centers</strong> at the solution.</p>
+</div>
+</div>
+<div class="section" id="using-sklearn">
+<h2>Using sklearn<a class="headerlink" href="#using-sklearn" title="Permalink to this headline">¶</a></h2>
+<p>Using <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> for linear regression is very simple (if you already
+understand all the concepts above).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+</pre></div>
+</div>
+<p>First we create the classifier <code class="docutils literal notranslate"><span class="pre">clf</span></code>. If <code class="docutils literal notranslate"><span class="pre">fit_intercept</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>
+(default), then it adds the dummy ‘1’ to the <code class="docutils literal notranslate"><span class="pre">X</span></code>. But we already did
+that manually, so set it to <code class="docutils literal notranslate"><span class="pre">False</span></code> here.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">clf</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then fit the data:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Check the <span class="math notranslate nohighlight">\(w\)</span> learned, it’s the same as ours:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[[7.00426874 2.08162643]]
+</pre></div>
+</div>
+<p>Previously we use <code class="docutils literal notranslate"><span class="pre">X</span> <span class="pre">&#64;</span> <span class="pre">w</span></code> to predict data. For <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> we can use
+<code class="docutils literal notranslate"><span class="pre">clf.predict</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predicted</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And the result is the same:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:],</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data points&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:],</span> <span class="n">true_targets</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True line&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:],</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Best fit line&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_linear_regression_tutorial_004.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_linear_regression_tutorial_004.png" />
+<p><strong>Total running time of the script:</strong> ( 0 minutes  1.197 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-blog-content-linear-regression-linear-regression-tutorial-py">
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" download="" href="../../_downloads/023c9334e6d74d6fd126ed1784f2b2e1/linear_regression_tutorial.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">linear_regression_tutorial.py</span></code></a></div>
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" download="" href="../../_downloads/0adf765ec5dfaf9317dbf60d0fc90a4d/linear_regression_tutorial.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">linear_regression_tutorial.ipynb</span></code></a></div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="linear_regression_regularized_tutorial.html" class="btn btn-neutral float-right" title="Linear Regression with Regularization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../../index.html" class="btn btn-neutral float-left" title="Welcome to ML Tutorial’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, aunnnn
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -36,6 +36,11 @@ livehtml:
 	--ignore "./docs/**/*" \
 	. "$(BUILDDIR)/html"
 
+doc:
+	python3 ipynb_to_gallery.py "./blog_content_source/**/*.ipynb" && \
+	make html && \
+	cp -r ./_build/html docs
+
 clean-cache:
 	make clean
 	rm -rf blog_content 
