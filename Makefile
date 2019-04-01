@@ -48,3 +48,8 @@ serve:
 clean-cache:
 	make clean
 	rm -rf blog_content
+
+push:
+	git add .
+	git commit -m"Latest"
+	git push
