@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Linear Regression with Regularization &mdash; ML Tutorial  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="A Complete Guide to Matrix Notation and Linear Regression" href="linear_regression_tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ML Tutorial
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="linear_regression_tutorial.html">A Complete Guide to Matrix Notation and Linear Regression</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Linear Regression with Regularization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-need-for-regularization">The Need for Regularization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#l2-and-l1-penalty">L2 and L1 Penalty</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#no-penalty-or-linear">0. No Penalty (or Linear)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#l2-penalty-or-ridge">1. L2 Penalty (or Ridge)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#closed-form-solution-of-ridge">Closed-form solution of Ridge</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#l1-penalty-or-lasso">2. L1 Penalty (or Lasso)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#visualizing-the-loss-surface-with-regularization">Visualizing the Loss Surface with Regularization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#l2-loss-surface">L2 loss surface</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#l2-loss-surface-under-different-lambdas">L2 loss surface under different lambdas</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#l1-loss-surface">L1 loss surface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contour-of-different-penalty-terms">Contour of different penalty terms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#which-one-to-use-l1-or-l2">Which one to use, L1 or L2?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#geometrical-explanation">Geometrical Explanation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ML Tutorial</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Linear Regression with Regularization</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/blog_content/linear_regression/linear_regression_regularized.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Click <a class="reference internal" href="#sphx-glr-download-blog-content-linear-regression-linear-regression-regularized-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="linear-regression-with-regularization">
+<span id="sphx-glr-blog-content-linear-regression-linear-regression-regularized-py"></span><h1>Linear Regression with Regularization<a class="headerlink" href="#linear-regression-with-regularization" title="Permalink to this headline">¶</a></h1>
+<p>Regularization is a way to prevent overfitting and allows the model to
+generalize better. We’ll cover the <em>Ridge</em> and <em>Lasso</em> regression here.</p>
+<div class="section" id="the-need-for-regularization">
+<h2>The Need for Regularization<a class="headerlink" href="#the-need-for-regularization" title="Permalink to this headline">¶</a></h2>
+<p>Unlike polynomial fitting, it’s hard to imagine how linear regression
+can overfit the data, since it’s just a single line (or a hyperplane).
+One situation is that features are <strong>correlated</strong> or redundant.</p>
+<p>Suppose there are two features, both are exactly the same, our predicted
+hyperplane will be in this format:</p>
+<div class="math notranslate nohighlight">
+\[\hat{y} = w_0 + w_1x_1 + w_2x_2\]</div>
+<p>and the true values of <span class="math notranslate nohighlight">\(x_2\)</span> is almost the same as <span class="math notranslate nohighlight">\(x_1\)</span> (or
+with some multiplicative factor and noise). Then, it’s best to just drop
+<span class="math notranslate nohighlight">\(w_2x_2\)</span> term and use:</p>
+<div class="math notranslate nohighlight">
+\[\hat{y} = w_0 + w_1x_1\]</div>
+<p>to fit the data. This is a simpler model.</p>
+<p>But we don’t know whether <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span> is <strong>actually</strong>
+redundant or not, at least with bare eyes, and we don’t want to manually
+drop a parameter just because we feel like it. We want to model to learn
+to do this itself, that is, to <em>prefer a simpler model that fits the
+data well enough</em>.</p>
+<p>To do this, we add a <em>penalty term</em> to our loss function. Two common
+penalty terms are L2 and L1 norm of <span class="math notranslate nohighlight">\(w\)</span>.</p>
+</div>
+<div class="section" id="l2-and-l1-penalty">
+<h2>L2 and L1 Penalty<a class="headerlink" href="#l2-and-l1-penalty" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="no-penalty-or-linear">
+<h3>0. No Penalty (or Linear)<a class="headerlink" href="#no-penalty-or-linear" title="Permalink to this headline">¶</a></h3>
+<p>This is linear regression without any regularization (from <a class="reference external" href="/blog_content/linear_regression/linear_regression_tutorial.html#writing-sse-loss-in-matrix-notation">previous
+article</a>):</p>
+<div class="math notranslate nohighlight">
+\[L(w) = \sum_{i=1}^{n} \left( y^i - wx^i \right)^2\]</div>
+</div>
+<div class="section" id="l2-penalty-or-ridge">
+<h3>1. L2 Penalty (or Ridge)<a class="headerlink" href="#l2-penalty-or-ridge" title="Permalink to this headline">¶</a></h3>
+<p>We can add the <strong>L2 penalty term</strong> to it, and this is called <strong>L2
+regularization</strong>.:</p>
+<div class="math notranslate nohighlight">
+\[L(w) = \sum_{i=1}^{n} \left( y^i - wx^i \right)^2 + \lambda\sum_{j=0}^{d}w_j^2\]</div>
+<p>This is called L2 penalty just because it’s a L2-norm of <span class="math notranslate nohighlight">\(w\)</span>. In
+fancy term, this whole loss function is also known as <strong>Ridge
+regression</strong>.</p>
+<p>Let’s see what’s going on. Loss function is something we <strong>minimize</strong>.
+Any terms that we add to it, we also want it to be minimized (that’s why
+it’s called <em>penalty term</em>). The above means we want <span class="math notranslate nohighlight">\(w\)</span> that fits
+the data well (first term), but we also want the values of <span class="math notranslate nohighlight">\(w\)</span> to
+be small as possible (second term). The lambda (<span class="math notranslate nohighlight">\(\lambda\)</span>) is
+there to adjust how much to penalize <span class="math notranslate nohighlight">\(w\)</span>. Note that <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>
+refers to this as alpha (<span class="math notranslate nohighlight">\(\alpha\)</span>) instead, but whatever.</p>
+<p>It’s tricky to know the appropriate value for lambda. You just have to
+try them out, in exponential range (0.01, 0.1, 1, 10, etc), then select
+the one that has the lowest loss on validation set, or doing k-fold
+cross validation.</p>
+<p>Setting <span class="math notranslate nohighlight">\(\lambda\)</span> to be very low means we don’t penalize the
+complex model much. Setting it to <span class="math notranslate nohighlight">\(0\)</span> is the original linear
+regression. Setting it high means we strongly prefer simpler model, at
+the cost of how well it fits the data.</p>
+<div class="section" id="closed-form-solution-of-ridge">
+<h4>Closed-form solution of Ridge<a class="headerlink" href="#closed-form-solution-of-ridge" title="Permalink to this headline">¶</a></h4>
+<p>It’s not hard to find a closed-form solution for Ridge, first write the
+loss function in matrix notation:</p>
+<div class="math notranslate nohighlight">
+\[L(w) = {\left\lVert y - Xw \right\rVert}^2 + \lambda{\left\lVert w \right\rVert}_2^2\]</div>
+<p>Then the gradient is:</p>
+<div class="math notranslate nohighlight">
+\[\nabla L_w = -2X^T(y-Xw) + 2\lambda w\]</div>
+<p>Setting to zero and solve:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+0 &amp;= -2X^T(y-Xw) + 2\lambda w \\
+&amp;= X^T(y-Xw) - \lambda w    \\
+&amp;= X^Ty - X^TXw - \lambda w \\
+&amp;= X^Ty - (X^TX + \lambda I_d) w
+\end{align}\end{split}\]</div>
+<p>Move that to other side and we get a closed-form solution:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+(X^TX + \lambda I_d) w &amp;= X^Ty    \\
+w &amp;= (X^TX + \lambda I_d)^{-1}X^Ty
+\end{align}\end{split}\]</div>
+<p>which is almost the same as linear regression without regularization.</p>
+</div>
+</div>
+<div class="section" id="l1-penalty-or-lasso">
+<h3>2. L1 Penalty (or Lasso)<a class="headerlink" href="#l1-penalty-or-lasso" title="Permalink to this headline">¶</a></h3>
+<p>As you might guess, you can also use L1-norm for <strong>L1 regularization</strong>:</p>
+<div class="math notranslate nohighlight">
+\[L(w) = \sum_{i=1}^{n} \left( y^i - wx^i \right)^2 + \lambda\sum_{j=0}^{d}\left|w_j\right|\]</div>
+<p>Again, in fancy term, this loss function is also known as <strong>Lasso
+regression</strong>. Using matrix notation:</p>
+<div class="math notranslate nohighlight">
+\[L(w) = {\left\lVert y - Xw \right\rVert}^2 + \lambda{\left\lVert w \right\rVert}_1\]</div>
+<p>It’s more complex to get a closed-form solution for this, so we’ll leave
+it here.</p>
+</div>
+</div>
+<div class="section" id="visualizing-the-loss-surface-with-regularization">
+<h2>Visualizing the Loss Surface with Regularization<a class="headerlink" href="#visualizing-the-loss-surface-with-regularization" title="Permalink to this headline">¶</a></h2>
+<p>Let’s see what these penalty terms mean geometrically.</p>
+<div class="section" id="l2-loss-surface">
+<h3>L2 loss surface<a class="headerlink" href="#l2-loss-surface" title="Permalink to this headline">¶</a></h3>
+<center><div class="figure">
+<img alt="" src="../../_images/img_l2_surface.png" />
+</div>
+</center><p>This simply follows the 3D equation:</p>
+<div class="math notranslate nohighlight">
+\[L(w) = {\left\lVert w \right\rVert}_2^2 = w_0^2 + w_1^2\]</div>
+<p>The center of the bowl is lowest, since <code class="docutils literal notranslate"><span class="pre">w</span> <span class="pre">=</span> <span class="pre">[0,0]</span></code>, but that is not
+even a line and it won’t predict anything useful.</p>
+<div class="section" id="l2-loss-surface-under-different-lambdas">
+<h4>L2 loss surface under different lambdas<a class="headerlink" href="#l2-loss-surface-under-different-lambdas" title="Permalink to this headline">¶</a></h4>
+<p>When you multiply the L2 norm function with lambda,
+<span class="math notranslate nohighlight">\(L(w) = \lambda(w_0^2 + w_1^2)\)</span>, the width of the bowl changes.
+The lowest (and flattest) one has lambda of 0.25, which you can see it
+penalizes The two subsequent ones has lambdas of 0.5 and 1.0.</p>
+<center><div class="figure" id="id1">
+<img alt="img\_l2\_surface\_lambdas" src="../../_images/img_l2_surface_lambdas.png" />
+<p class="caption"><span class="caption-text">img_l2_surface_lambdas</span></p>
+</div>
+</center></div>
+</div>
+<div class="section" id="l1-loss-surface">
+<h3>L1 loss surface<a class="headerlink" href="#l1-loss-surface" title="Permalink to this headline">¶</a></h3>
+<p>Below is the loss surface of L1 penalty:</p>
+<center><div class="figure" id="id2">
+<img alt="img\_l1\_surface" src="../../_images/img_l1_surface.png" />
+<p class="caption"><span class="caption-text">img_l1_surface</span></p>
+</div>
+</center><p>Similarly the equation is
+<span class="math notranslate nohighlight">\(L(w) = \lambda(\left| w_0 \right| + \left| w_1 \right|)\)</span>.</p>
+</div>
+<div class="section" id="contour-of-different-penalty-terms">
+<h3>Contour of different penalty terms<a class="headerlink" href="#contour-of-different-penalty-terms" title="Permalink to this headline">¶</a></h3>
+<p>If the L2 norm is 1, you get a unit circle (<span class="math notranslate nohighlight">\(w_0^2 + w_1^2 = 1\)</span>).
+In the same manner, you get “unit” shapes in other norms:</p>
+<center><div class="figure" id="id3">
+<img alt="img\_penalty\_contours" src="../../_images/img_penalty_contours.png" />
+<p class="caption"><span class="caption-text">img_penalty_contours</span></p>
+</div>
+</center><p><strong>When you walk along these lines, you get the same loss, which is 1</strong></p>
+<p>These shapes can hint us different behaviors of each norm, which brings
+us to the next question.</p>
+</div>
+</div>
+<div class="section" id="which-one-to-use-l1-or-l2">
+<h2>Which one to use, L1 or L2?<a class="headerlink" href="#which-one-to-use-l1-or-l2" title="Permalink to this headline">¶</a></h2>
+<p>What’s the point of using different penalty terms, as it seems like both
+try to push down the size of <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p><strong>Turns out L1 penalty tends to produce sparse solutions</strong>. This means
+many entries in <span class="math notranslate nohighlight">\(w\)</span> are zeros. This is good if you want the model
+to be simple and compact. Why is that?</p>
+<div class="section" id="geometrical-explanation">
+<h3>Geometrical Explanation<a class="headerlink" href="#geometrical-explanation" title="Permalink to this headline">¶</a></h3>
+<p><em>Note: these figures are generated with unusually high lambda to
+exaggerate the plot</em></p>
+<p>First let’s bring both linear regression and penalty loss surface
+together (left), and recall that we want to find the <strong>minimum loss when
+both surfaces are summed up</strong> (right):</p>
+<center><div class="figure" id="id4">
+<img alt="ridge" src="../../_images/img_ridge_regression.png" />
+<p class="caption"><span class="caption-text">ridge</span></p>
+</div>
+</center><p>Ridge regression is like finding the middle point where the loss of a
+sum between linear regression and L2 penalty loss is lowest:</p>
+<center><div class="figure" id="id5">
+<img alt="ridge\_solution" src="../../_images/img_ridge_sol_30.png" />
+<p class="caption"><span class="caption-text">ridge_solution</span></p>
+</div>
+</center><p>You can imagine starting with the linear regression solution (red point)
+where the loss is the lowest, then you move towards the origin (blue
+point), where the penalty loss is lowest. <strong>The more lambda you set, the
+more you’ll be drawn towards the origin, since you penalize the values
+of :math:`w_i` more</strong> so it wants to get to where they’re all zeros:</p>
+<center><div class="figure" id="id6">
+<img alt="ridge\_solution" src="../../_images/img_ridge_sol_60.png" />
+<p class="caption"><span class="caption-text">ridge_solution</span></p>
+</div>
+</center><p>Since the loss surfaces of linear regression and L2 norm are both
+ellipsoid, the solution found for Ridge regression <strong>tends to be
+directly between both solutions</strong>. Notice how the summed ellipsoid is
+still right in the middle.</p>
+<hr class="docutils" />
+<p>For Lasso:</p>
+<center><div class="figure" id="id7">
+<img alt="lasso" src="../../_images/img_lasso_regression.png" />
+<p class="caption"><span class="caption-text">lasso</span></p>
+</div>
+</center><p>And this is the Lasso solution for lambda = 30 and 60:</p>
+<center><p><a href="#id9"><span class="problematic" id="id10">|lasso\_solution|</span></a> <a href="#id11"><span class="problematic" id="id12">|lasso\_solution|</span></a></p>
+</center><p>Notice that the ellipsoid of linear regression <strong>approaches, and finally
+hits a corner of L1 loss</strong>, and will always stay at that corner. What
+does a corner of L1 norm means in this situation? It means
+<span class="math notranslate nohighlight">\(w_1 = 0\)</span>.</p>
+<p>Again, this is because the contour lines <strong>at the same loss value</strong> of
+L2 norm reaches out much farther than L1 norm:</p>
+<center><div class="figure" id="id8">
+<img alt="img\_l1\_vs\_l2\_contour" src="../../_images/img_l1_vs_l2_contour.png" />
+<p class="caption"><span class="caption-text">img_l1_vs_l2_contour</span></p>
+</div>
+</center><p>If the linear regression finds an optimal contact point along the L2
+circle, then it will stop since there’s no use to move sideways where
+the loss is usually higher. However, with L1 penalty, it can drift
+toward a corner, because it’s <strong>the same loss along the line</strong> anyway (I
+mean, why not?) and thus is exploited, if the opportunity arises.</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-blog-content-linear-regression-linear-regression-regularized-py">
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" download="" href="../../_downloads/daa2c9be804b10f31254f607fe619488/linear_regression_regularized.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">linear_regression_regularized.py</span></code></a></div>
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" download="" href="../../_downloads/2cfd6c4f7cdc2085b0c7c37174eaac6b/linear_regression_regularized.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">linear_regression_regularized.ipynb</span></code></a></div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="linear_regression_tutorial.html" class="btn btn-neutral float-left" title="A Complete Guide to Matrix Notation and Linear Regression" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, aunnnn
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

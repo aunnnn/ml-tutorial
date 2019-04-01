@@ -184,10 +184,16 @@ Linear Regression with Regularization
 # L2 loss surface
 # ~~~~~~~~~~~~~~~
 # 
-# .. figure:: imgs/img_l2_surface.png
-#    :alt: img\_l2\_surface
+# .. raw:: html
 # 
-#    img\_l2\_surface
+#    <center>
+# 
+# .. figure:: imgs/img_l2_surface.png
+#    :alt: 
+# 
+# .. raw:: html
+# 
+#    </center>
 # 
 # This simply follows the 3D equation:
 # 
@@ -207,20 +213,36 @@ Linear Regression with Regularization
 # The lowest (and flattest) one has lambda of 0.25, which you can see it
 # penalizes The two subsequent ones has lambdas of 0.5 and 1.0.
 # 
+# .. raw:: html
+# 
+#    <center>
+# 
 # .. figure:: imgs/img_l2_surface_lambdas.png
 #    :alt: img\_l2\_surface\_lambdas
 # 
 #    img\_l2\_surface\_lambdas
+# 
+# .. raw:: html
+# 
+#    </center>
 # 
 # L1 loss surface
 # ~~~~~~~~~~~~~~~
 # 
 # Below is the loss surface of L1 penalty:
 # 
+# .. raw:: html
+# 
+#    <center>
+# 
 # .. figure:: imgs/img_l1_surface.png
 #    :alt: img\_l1\_surface
 # 
 #    img\_l1\_surface
+# 
+# .. raw:: html
+# 
+#    </center>
 # 
 # Similarly the equation is
 # :math:`L(w) = \lambda(\left| w_0 \right| + \left| w_1 \right|)`.
@@ -231,10 +253,18 @@ Linear Regression with Regularization
 # If the L2 norm is 1, you get a unit circle (:math:`w_0^2 + w_1^2 = 1`).
 # In the same manner, you get "unit" shapes in other norms:
 # 
+# .. raw:: html
+# 
+#    <center>
+# 
 # .. figure:: imgs/img_penalty_contours.png
 #    :alt: img\_penalty\_contours
 # 
 #    img\_penalty\_contours
+# 
+# .. raw:: html
+# 
+#    </center>
 # 
 # **When you walk along these lines, you get the same loss, which is 1**
 # 
@@ -264,18 +294,34 @@ Linear Regression with Regularization
 # together (left), and recall that we want to find the **minimum loss when
 # both surfaces are summed up** (right):
 # 
+# .. raw:: html
+# 
+#    <center>
+# 
 # .. figure:: imgs/img_ridge_regression.png
 #    :alt: ridge
 # 
 #    ridge
 # 
+# .. raw:: html
+# 
+#    </center>
+# 
 # Ridge regression is like finding the middle point where the loss of a
 # sum between linear regression and L2 penalty loss is lowest:
+# 
+# .. raw:: html
+# 
+#    <center>
 # 
 # .. figure:: imgs/img_ridge_sol_30.png
 #    :alt: ridge\_solution
 # 
 #    ridge\_solution
+# 
+# .. raw:: html
+# 
+#    </center>
 # 
 # You can imagine starting with the linear regression solution (red point)
 # where the loss is the lowest, then you move towards the origin (blue
@@ -283,10 +329,18 @@ Linear Regression with Regularization
 # more you'll be drawn towards the origin, since you penalize the values
 # of :math:`w_i` more** so it wants to get to where they're all zeros:
 # 
+# .. raw:: html
+# 
+#    <center>
+# 
 # .. figure:: imgs/img_ridge_sol_60.png
 #    :alt: ridge\_solution
 # 
 #    ridge\_solution
+# 
+# .. raw:: html
+# 
+#    </center>
 # 
 # Since the loss surfaces of linear regression and L2 norm are both
 # ellipsoid, the solution found for Ridge regression **tends to be
@@ -297,22 +351,30 @@ Linear Regression with Regularization
 # 
 # For Lasso:
 # 
+# .. raw:: html
+# 
+#    <center>
+# 
 # .. figure:: imgs/img_lasso_regression.png
 #    :alt: lasso
 # 
 #    lasso
 # 
+# .. raw:: html
+# 
+#    </center>
+# 
 # And this is the Lasso solution for lambda = 30 and 60:
 # 
-# .. figure:: imgs/img_lasso_sol_30.png
-#    :alt: lasso\_solution
+# .. raw:: html
 # 
-#    lasso\_solution
+#    <center>
 # 
-# .. figure:: imgs/img_lasso_sol_60.png
-#    :alt: lasso\_solution
+# |lasso\_solution| |lasso\_solution|
 # 
-#    lasso\_solution
+# .. raw:: html
+# 
+#    </center>
 # 
 # Notice that the ellipsoid of linear regression **approaches, and finally
 # hits a corner of L1 loss**, and will always stay at that corner. What
@@ -322,14 +384,26 @@ Linear Regression with Regularization
 # Again, this is because the contour lines **at the same loss value** of
 # L2 norm reaches out much farther than L1 norm:
 # 
+# .. raw:: html
+# 
+#    <center>
+# 
 # .. figure:: imgs/img_l1_vs_l2_contour.png
 #    :alt: img\_l1\_vs\_l2\_contour
 # 
 #    img\_l1\_vs\_l2\_contour
+# 
+# .. raw:: html
+# 
+#    </center>
 # 
 # If the linear regression finds an optimal contact point along the L2
 # circle, then it will stop since there's no use to move sideways where
 # the loss is usually higher. However, with L1 penalty, it can drift
 # toward a corner, because it's **the same loss along the line** anyway (I
 # mean, why not?) and thus is exploited, if the opportunity arises.
+# 
+# .. |lasso\_solution| image:: imgs/img_lasso_sol_30.png
+# .. |lasso\_solution| image:: imgs/img_lasso_sol_60.png
+# 
 # 

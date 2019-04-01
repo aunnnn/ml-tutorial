@@ -11,4 +11,4 @@ Welcome to ML Tutorial's documentation!
    :caption: Contents:
 
    blog_content/linear_regression/linear_regression_tutorial
-   blog_content/linear_regression/linear_regression_regularized_tutorial
+   blog_content/linear_regression/linear_regression_regularized

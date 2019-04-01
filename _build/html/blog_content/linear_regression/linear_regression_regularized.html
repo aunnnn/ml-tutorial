@@ -160,7 +160,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/blog_content/linear_regression/linear_regression_regularized_tutorial.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/blog_content/linear_regression/linear_regression_regularized.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -175,10 +175,10 @@
             
   <div class="sphx-glr-download-link-note admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Click <a class="reference internal" href="#sphx-glr-download-blog-content-linear-regression-linear-regression-regularized-tutorial-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+<p class="last">Click <a class="reference internal" href="#sphx-glr-download-blog-content-linear-regression-linear-regression-regularized-py"><span class="std std-ref">here</span></a> to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="linear-regression-with-regularization">
-<span id="sphx-glr-blog-content-linear-regression-linear-regression-regularized-tutorial-py"></span><h1>Linear Regression with Regularization<a class="headerlink" href="#linear-regression-with-regularization" title="Permalink to this headline">¶</a></h1>
+<span id="sphx-glr-blog-content-linear-regression-linear-regression-regularized-py"></span><h1>Linear Regression with Regularization<a class="headerlink" href="#linear-regression-with-regularization" title="Permalink to this headline">¶</a></h1>
 <p>Regularization is a way to prevent overfitting and allows the model to
 generalize better. We’ll cover the <em>Ridge</em> and <em>Lasso</em> regression here.</p>
 <div class="section" id="the-need-for-regularization">
@@ -281,11 +281,10 @@ it here.</p>
 <p>Let’s see what these penalty terms mean geometrically.</p>
 <div class="section" id="l2-loss-surface">
 <h3>L2 loss surface<a class="headerlink" href="#l2-loss-surface" title="Permalink to this headline">¶</a></h3>
-<div class="figure" id="id1">
-<img alt="img\_l2\_surface" src="../../_images/img_l2_surface.png" />
-<p class="caption"><span class="caption-text">img_l2_surface</span></p>
+<center><div class="figure">
+<img alt="" src="../../_images/img_l2_surface.png" />
 </div>
-<p>This simply follows the 3D equation:</p>
+</center><p>This simply follows the 3D equation:</p>
 <div class="math notranslate nohighlight">
 \[L(w) = {\left\lVert w \right\rVert}_2^2 = w_0^2 + w_1^2\]</div>
 <p>The center of the bowl is lowest, since <code class="docutils literal notranslate"><span class="pre">w</span> <span class="pre">=</span> <span class="pre">[0,0]</span></code>, but that is not
@@ -296,31 +295,31 @@ even a line and it won’t predict anything useful.</p>
 <span class="math notranslate nohighlight">\(L(w) = \lambda(w_0^2 + w_1^2)\)</span>, the width of the bowl changes.
 The lowest (and flattest) one has lambda of 0.25, which you can see it
 penalizes The two subsequent ones has lambdas of 0.5 and 1.0.</p>
-<div class="figure" id="id2">
+<center><div class="figure" id="id1">
 <img alt="img\_l2\_surface\_lambdas" src="../../_images/img_l2_surface_lambdas.png" />
 <p class="caption"><span class="caption-text">img_l2_surface_lambdas</span></p>
 </div>
-</div>
+</center></div>
 </div>
 <div class="section" id="l1-loss-surface">
 <h3>L1 loss surface<a class="headerlink" href="#l1-loss-surface" title="Permalink to this headline">¶</a></h3>
 <p>Below is the loss surface of L1 penalty:</p>
-<div class="figure" id="id3">
+<center><div class="figure" id="id2">
 <img alt="img\_l1\_surface" src="../../_images/img_l1_surface.png" />
 <p class="caption"><span class="caption-text">img_l1_surface</span></p>
 </div>
-<p>Similarly the equation is
+</center><p>Similarly the equation is
 <span class="math notranslate nohighlight">\(L(w) = \lambda(\left| w_0 \right| + \left| w_1 \right|)\)</span>.</p>
 </div>
 <div class="section" id="contour-of-different-penalty-terms">
 <h3>Contour of different penalty terms<a class="headerlink" href="#contour-of-different-penalty-terms" title="Permalink to this headline">¶</a></h3>
 <p>If the L2 norm is 1, you get a unit circle (<span class="math notranslate nohighlight">\(w_0^2 + w_1^2 = 1\)</span>).
 In the same manner, you get “unit” shapes in other norms:</p>
-<div class="figure" id="id4">
+<center><div class="figure" id="id3">
 <img alt="img\_penalty\_contours" src="../../_images/img_penalty_contours.png" />
 <p class="caption"><span class="caption-text">img_penalty_contours</span></p>
 </div>
-<p><strong>When you walk along these lines, you get the same loss, which is 1</strong></p>
+</center><p><strong>When you walk along these lines, you get the same loss, which is 1</strong></p>
 <p>These shapes can hint us different behaviors of each norm, which brings
 us to the next question.</p>
 </div>
@@ -339,65 +338,58 @@ exaggerate the plot</em></p>
 <p>First let’s bring both linear regression and penalty loss surface
 together (left), and recall that we want to find the <strong>minimum loss when
 both surfaces are summed up</strong> (right):</p>
-<div class="figure" id="id5">
+<center><div class="figure" id="id4">
 <img alt="ridge" src="../../_images/img_ridge_regression.png" />
 <p class="caption"><span class="caption-text">ridge</span></p>
 </div>
-<p>Ridge regression is like finding the middle point where the loss of a
+</center><p>Ridge regression is like finding the middle point where the loss of a
 sum between linear regression and L2 penalty loss is lowest:</p>
-<div class="figure" id="id6">
+<center><div class="figure" id="id5">
 <img alt="ridge\_solution" src="../../_images/img_ridge_sol_30.png" />
 <p class="caption"><span class="caption-text">ridge_solution</span></p>
 </div>
-<p>You can imagine starting with the linear regression solution (red point)
+</center><p>You can imagine starting with the linear regression solution (red point)
 where the loss is the lowest, then you move towards the origin (blue
 point), where the penalty loss is lowest. <strong>The more lambda you set, the
 more you’ll be drawn towards the origin, since you penalize the values
 of :math:`w_i` more</strong> so it wants to get to where they’re all zeros:</p>
-<div class="figure" id="id7">
+<center><div class="figure" id="id6">
 <img alt="ridge\_solution" src="../../_images/img_ridge_sol_60.png" />
 <p class="caption"><span class="caption-text">ridge_solution</span></p>
 </div>
-<p>Since the loss surfaces of linear regression and L2 norm are both
+</center><p>Since the loss surfaces of linear regression and L2 norm are both
 ellipsoid, the solution found for Ridge regression <strong>tends to be
 directly between both solutions</strong>. Notice how the summed ellipsoid is
 still right in the middle.</p>
 <hr class="docutils" />
 <p>For Lasso:</p>
-<div class="figure" id="id8">
+<center><div class="figure" id="id7">
 <img alt="lasso" src="../../_images/img_lasso_regression.png" />
 <p class="caption"><span class="caption-text">lasso</span></p>
 </div>
-<p>And this is the Lasso solution for lambda = 30 and 60:</p>
-<div class="figure" id="id9">
-<img alt="lasso\_solution" src="../../_images/img_lasso_sol_30.png" />
-<p class="caption"><span class="caption-text">lasso_solution</span></p>
-</div>
-<div class="figure" id="id10">
-<img alt="lasso\_solution" src="../../_images/img_lasso_sol_60.png" />
-<p class="caption"><span class="caption-text">lasso_solution</span></p>
-</div>
-<p>Notice that the ellipsoid of linear regression <strong>approaches, and finally
+</center><p>And this is the Lasso solution for lambda = 30 and 60:</p>
+<center><p><a href="#id9"><span class="problematic" id="id10">|lasso\_solution|</span></a> <a href="#id11"><span class="problematic" id="id12">|lasso\_solution|</span></a></p>
+</center><p>Notice that the ellipsoid of linear regression <strong>approaches, and finally
 hits a corner of L1 loss</strong>, and will always stay at that corner. What
 does a corner of L1 norm means in this situation? It means
 <span class="math notranslate nohighlight">\(w_1 = 0\)</span>.</p>
 <p>Again, this is because the contour lines <strong>at the same loss value</strong> of
 L2 norm reaches out much farther than L1 norm:</p>
-<div class="figure" id="id11">
+<center><div class="figure" id="id8">
 <img alt="img\_l1\_vs\_l2\_contour" src="../../_images/img_l1_vs_l2_contour.png" />
 <p class="caption"><span class="caption-text">img_l1_vs_l2_contour</span></p>
 </div>
-<p>If the linear regression finds an optimal contact point along the L2
+</center><p>If the linear regression finds an optimal contact point along the L2
 circle, then it will stop since there’s no use to move sideways where
 the loss is usually higher. However, with L1 penalty, it can drift
 toward a corner, because it’s <strong>the same loss along the line</strong> anyway (I
 mean, why not?) and thus is exploited, if the opportunity arises.</p>
 <p><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-blog-content-linear-regression-linear-regression-regularized-tutorial-py">
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-blog-content-linear-regression-linear-regression-regularized-py">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" download="" href="../../_downloads/12019720201790744867625194934f96/linear_regression_regularized_tutorial.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">linear_regression_regularized_tutorial.py</span></code></a></div>
+<a class="reference download internal" download="" href="../../_downloads/daa2c9be804b10f31254f607fe619488/linear_regression_regularized.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">linear_regression_regularized.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" download="" href="../../_downloads/b46a4fb45981c08755e62c4ed9308063/linear_regression_regularized_tutorial.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">linear_regression_regularized_tutorial.ipynb</span></code></a></div>
+<a class="reference download internal" download="" href="../../_downloads/2cfd6c4f7cdc2085b0c7c37174eaac6b/linear_regression_regularized.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">linear_regression_regularized.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>

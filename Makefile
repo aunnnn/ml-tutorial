@@ -37,9 +37,13 @@ livehtml:
 	. "$(BUILDDIR)/html"
 
 doc:
+	make clean-cache && \
 	python3 ipynb_to_gallery.py "./blog_content_source/**/*.ipynb" && \
 	make html && \
 	cp -r ./_build/* docs
+
+serve:
+	python -m http.server 9999 --directory ./_build/html
 
 clean-cache:
 	make clean

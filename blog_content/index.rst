@@ -15,9 +15,9 @@
 
 .. only:: html
 
-    .. figure:: /blog_content/linear_regression/images/thumb/sphx_glr_linear_regression_regularized_tutorial_thumb.png
+    .. figure:: /blog_content/linear_regression/images/thumb/sphx_glr_linear_regression_regularized_thumb.png
 
-        :ref:`sphx_glr_blog_content_linear_regression_linear_regression_regularized_tutorial.py`
+        :ref:`sphx_glr_blog_content_linear_regression_linear_regression_regularized.py`
 
 .. raw:: html
 
@@ -27,7 +27,7 @@
 .. toctree::
    :hidden:
 
-   /blog_content/linear_regression/linear_regression_regularized_tutorial
+   /blog_content/linear_regression/linear_regression_regularized
 
 .. raw:: html
 
