@@ -1068,7 +1068,7 @@ And the result is the same:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.500 seconds)
+   **Total running time of the script:** ( 0 minutes  1.502 seconds)
 
 
 .. _sphx_glr_download_blog_content_linear_regression_linear_regression_tutorial.py:
