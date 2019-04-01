@@ -9,17 +9,14 @@
 
 Linear Regression with Regularization
 =====================================
-
-
-
 Regularization is a way to prevent overfitting and allows the model to
-generalize better. We'll cover the *Ridge* and *Lasso* regression here.
+generalize better. We’ll cover the *Ridge* and *Lasso* regression here.
 
 The Need for Regularization
 ---------------------------
 
-Unlike polynomial fitting, it's hard to imagine how linear regression
-can overfit the data, since it's just a single line (or a hyperplane).
+Unlike polynomial fitting, it’s hard to imagine how linear regression
+can overfit the data, since it’s just a single line (or a hyperplane).
 One situation is that features are **correlated** or redundant.
 
 Suppose there are two features, both are exactly the same, our predicted
@@ -31,7 +28,7 @@ hyperplane will be in this format:
    \hat{y} = w_0 + w_1x_1 + w_2x_2
 
 and the true values of :math:`x_2` is almost the same as :math:`x_1` (or
-with some multiplicative factor and noise). Then, it's best to just drop
+with some multiplicative factor and noise). Then, it’s best to just drop
 :math:`w_2x_2` term and use:
 
 .. math::
@@ -41,8 +38,8 @@ with some multiplicative factor and noise). Then, it's best to just drop
 
 to fit the data. This is a simpler model.
 
-But we don't know whether :math:`x_1` and :math:`x_2` is **actually**
-redundant or not, at least with bare eyes, and we don't want to manually
+But we don’t know whether :math:`x_1` and :math:`x_2` is **actually**
+redundant or not, at least with bare eyes, and we don’t want to manually
 drop a parameter just because we feel like it. We want to model to learn
 to do this itself, that is, to *prefer a simpler model that fits the
 data well enough*.
@@ -51,10 +48,8 @@ To do this, we add a *penalty term* to our loss function. Two common
 penalty terms are L2 and L1 norm of :math:`w`.
 
 
-
 L2 and L1 Penalty
 -----------------
-
 
 
 0. No Penalty (or Linear)
@@ -70,7 +65,6 @@ article </blog_content/linear_regression/linear_regression_tutorial.html#writing
 
 
 
-
 1. L2 Penalty (or Ridge)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -82,34 +76,33 @@ regularization**.:
 
    L(w) = \sum_{i=1}^{n} \left( y^i - wx^i \right)^2 + \lambda\sum_{j=0}^{d}w_j^2
 
-This is called L2 penalty just because it's a L2-norm of :math:`w`. In
+This is called L2 penalty just because it’s a L2-norm of :math:`w`. In
 fancy term, this whole loss function is also known as **Ridge
 regression**.
 
-Let's see what's going on. Loss function is something we **minimize**.
-Any terms that we add to it, we also want it to be minimized (that's why
-it's called *penalty term*). The above means we want :math:`w` that fits
+Let’s see what’s going on. Loss function is something we **minimize**.
+Any terms that we add to it, we also want it to be minimized (that’s why
+it’s called *penalty term*). The above means we want :math:`w` that fits
 the data well (first term), but we also want the values of :math:`w` to
 be small as possible (second term). The lambda (:math:`\lambda`) is
 there to adjust how much to penalize :math:`w`. Note that ``sklearn``
 refers to this as alpha (:math:`\alpha`) instead, but whatever.
 
-It's tricky to know the appropriate value for lambda. You just have to
+It’s tricky to know the appropriate value for lambda. You just have to
 try them out, in exponential range (0.01, 0.1, 1, 10, etc), then select
 the one that has the lowest loss on validation set, or doing k-fold
 cross validation.
 
-Setting :math:`\lambda` to be very low means we don't penalize the
+Setting :math:`\lambda` to be very low means we don’t penalize the
 complex model much. Setting it to :math:`0` is the original linear
 regression. Setting it high means we strongly prefer simpler model, at
 the cost of how well it fits the data.
 
 
-
 Closed-form solution of Ridge
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-It's not hard to find a closed-form solution for Ridge, first write the
+It’s not hard to find a closed-form solution for Ridge, first write the
 loss function in matrix notation:
 
 .. math::
@@ -149,7 +142,6 @@ Move that to other side and we get a closed-form solution:
 which is almost the same as linear regression without regularization.
 
 
-
 2. L1 Penalty (or Lasso)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -168,17 +160,15 @@ regression**. Using matrix notation:
 
    L(w) = {\left\lVert y - Xw \right\rVert}^2 + \lambda{\left\lVert w \right\rVert}_1
 
-It's more complex to get a closed-form solution for this, so we'll leave
+It’s more complex to get a closed-form solution for this, so we’ll leave
 it here.
-
 
 
 Visualizing the Loss Surface with Regularization
 ------------------------------------------------
 
 
-
-Let's see what these penalty terms mean geometrically.
+Let’s see what these penalty terms mean geometrically.
 
 L2 loss surface
 ~~~~~~~~~~~~~~~
@@ -187,8 +177,7 @@ L2 loss surface
 
    <center>
 
-.. figure:: imgs/img_l2_surface.png
-   :alt: 
+|image0|
 
 .. raw:: html
 
@@ -202,7 +191,7 @@ This simply follows the 3D equation:
    L(w) = {\left\lVert w \right\rVert}_2^2 = w_0^2 + w_1^2
 
 The center of the bowl is lowest, since ``w = [0,0]``, but that is not
-even a line and it won't predict anything useful.
+even a line and it won’t predict anything useful.
 
 L2 loss surface under different lambdas
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -216,10 +205,7 @@ penalizes The two subsequent ones has lambdas of 0.5 and 1.0.
 
    <center>
 
-.. figure:: imgs/img_l2_surface_lambdas.png
-   :alt: img\_l2\_surface\_lambdas
-
-   img\_l2\_surface\_lambdas
+|image1|
 
 .. raw:: html
 
@@ -234,10 +220,7 @@ Below is the loss surface of L1 penalty:
 
    <center>
 
-.. figure:: imgs/img_l1_surface.png
-   :alt: img\_l1\_surface
-
-   img\_l1\_surface
+|image2|
 
 .. raw:: html
 
@@ -250,16 +233,13 @@ Contour of different penalty terms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If the L2 norm is 1, you get a unit circle (:math:`w_0^2 + w_1^2 = 1`).
-In the same manner, you get "unit" shapes in other norms:
+In the same manner, you get “unit” shapes in other norms:
 
 .. raw:: html
 
    <center>
 
-.. figure:: imgs/img_penalty_contours.png
-   :alt: img\_penalty\_contours
-
-   img\_penalty\_contours
+|image3|
 
 .. raw:: html
 
@@ -270,12 +250,17 @@ In the same manner, you get "unit" shapes in other norms:
 These shapes can hint us different behaviors of each norm, which brings
 us to the next question.
 
+.. |image0| image:: imgs/img_l2_surface.png
+.. |image1| image:: imgs/img_l2_surface_lambdas.png
+.. |image2| image:: imgs/img_l1_surface.png
+.. |image3| image:: imgs/img_penalty_contours.png
+
 
 
 Which one to use, L1 or L2?
 ---------------------------
 
-What's the point of using different penalty terms, as it seems like both
+What’s the point of using different penalty terms, as it seems like both
 try to push down the size of :math:`w`.
 
 **Turns out L1 penalty tends to produce sparse solutions**. This means
@@ -288,7 +273,7 @@ Geometrical Explanation
 *Note: these figures are generated with unusually high lambda to
 exaggerate the plot*
 
-First let's bring both linear regression and penalty loss surface
+First let’s bring both linear regression and penalty loss surface
 together (left), and recall that we want to find the **minimum loss when
 both surfaces are summed up** (right):
 
@@ -296,10 +281,7 @@ both surfaces are summed up** (right):
 
    <center>
 
-.. figure:: imgs/img_ridge_regression.png
-   :alt: ridge
-
-   ridge
+|image0|
 
 .. raw:: html
 
@@ -312,10 +294,7 @@ sum between linear regression and L2 penalty loss is lowest:
 
    <center>
 
-.. figure:: imgs/img_ridge_sol_30.png
-   :alt: ridge\_solution
-
-   ridge\_solution
+|image1|
 
 .. raw:: html
 
@@ -324,17 +303,14 @@ sum between linear regression and L2 penalty loss is lowest:
 You can imagine starting with the linear regression solution (red point)
 where the loss is the lowest, then you move towards the origin (blue
 point), where the penalty loss is lowest. **The more lambda you set, the
-more you'll be drawn towards the origin, since you penalize the values
-of :math:`w_i` more** so it wants to get to where they're all zeros:
+more you’ll be drawn towards the origin, since you penalize the values
+of :math:`w_i` more** so it wants to get to where they’re all zeros:
 
 .. raw:: html
 
    <center>
 
-.. figure:: imgs/img_ridge_sol_60.png
-   :alt: ridge\_solution
-
-   ridge\_solution
+|image2|
 
 .. raw:: html
 
@@ -353,10 +329,7 @@ For Lasso:
 
    <center>
 
-.. figure:: imgs/img_lasso_regression.png
-   :alt: lasso
-
-   lasso
+|image3|
 
 .. raw:: html
 
@@ -368,7 +341,7 @@ And this is the Lasso solution for lambda = 30 and 60:
 
    <center>
 
-|lasso\_solution| |lasso\_solution|
+|image4| |You can see it tends to drift to a corner.|
 
 .. raw:: html
 
@@ -386,27 +359,31 @@ L2 norm reaches out much farther than L1 norm:
 
    <center>
 
-.. figure:: imgs/img_l1_vs_l2_contour.png
-   :alt: img\_l1\_vs\_l2\_contour
-
-   img\_l1\_vs\_l2\_contour
+|image6|
 
 .. raw:: html
 
    </center>
 
 If the linear regression finds an optimal contact point along the L2
-circle, then it will stop since there's no use to move sideways where
+circle, then it will stop since there’s no use to move sideways where
 the loss is usually higher. However, with L1 penalty, it can drift
-toward a corner, because it's **the same loss along the line** anyway (I
+toward a corner, because it’s **the same loss along the line** anyway (I
 mean, why not?) and thus is exploited, if the opportunity arises.
 
-.. |lasso\_solution| image:: imgs/img_lasso_sol_30.png
-.. |lasso\_solution| image:: imgs/img_lasso_sol_60.png
+.. |image0| image:: imgs/img_ridge_regression.png
+.. |image1| image:: imgs/img_ridge_sol_30.png
+.. |image2| image:: imgs/img_ridge_sol_60.png
+.. |image3| image:: imgs/img_lasso_regression.png
+.. |image4| image:: imgs/img_lasso_sol_30.png
+.. |You can see it tends to drift to a corner.| image:: imgs/img_lasso_sol_60.png
+.. |image6| image:: imgs/img_l1_vs_l2_contour.png
 
 
 
-**Total running time of the script:** ( 0 minutes  0.000 seconds)
+.. rst-class:: sphx-glr-timing
+
+   **Total running time of the script:** ( 0 minutes  0.000 seconds)
 
 
 .. _sphx_glr_download_blog_content_linear_regression_linear_regression_regularized.py:

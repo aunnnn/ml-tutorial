@@ -24,7 +24,8 @@
         <script type="text/javascript" src="../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -104,7 +105,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#creating-data-points">Creating data points</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#visualize-our-data-points-with-respect-to-the-true-line">Visualize our data points with respect to the true line</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#compute-a-closed-form-solution">Compute a closed-form solution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#visualize-best-fit-line-vs-true-target-line">Visualize best fit line vs. true target line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualize-best-fit-line-vs-true-target-line">Visualize best fit line vs.&nbsp;true target line</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#understanding-the-result">Understanding the result</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#visualize-the-loss-surface">Visualize the loss surface</a></li>
 </ul>
@@ -230,24 +231,19 @@ SSE loss later, but first let’s visualize what we’re trying to do.</p>
 <img alt="img" src="../../_images/img_lr_objective.png" />
 <p class="caption"><span class="caption-text">img</span></p>
 </div>
-<ol class="arabic">
-<li><p class="first">There is a true line, the true linear relationship that we want to
-discover (blue line).</p>
-</li>
-<li><p class="first">The data points are then observed through noise <strong>deviating from that
-line, with Gaussian distribution</strong>.</p>
-</li>
-<li><p class="first">Suppose we predict a random line (red), not the best one yet.</p>
-</li>
-<li><p class="first">We calculate the distance or difference between the predicted points
+<ol class="arabic simple">
+<li>There is a true line, the true linear relationship that we want to
+discover (blue line).</li>
+<li>The data points are then observed through noise <strong>deviating from that
+line, with Gaussian distribution</strong>.</li>
+<li>Suppose we predict a random line (red), not the best one yet.</li>
+<li>We calculate the distance or difference between the predicted points
 (along the line) and the actual data points. This is then <strong>squared
-and sum up to get sum of squared error</strong>.</p>
-<blockquote>
-<div><p>Linear regression is the method to get the line that fits the given
-data with the minimum sum of squared error.</p>
-</div></blockquote>
-</li>
+and sum up to get sum of squared error</strong>.</li>
 </ol>
+<blockquote>
+<div>Linear regression is the method to get the line that fits the given
+data with the minimum sum of squared error.</div></blockquote>
 <p><em>Note: I know it’s confusing for the first time, but you’ll get used to
 using superscript for indexing data points…</em></p>
 <div class="section" id="how-to-find-the-optimal-solution">
@@ -580,14 +576,14 @@ w &amp;= (X^TX)^{-1}X^Ty
 </div>
 <div class="section" id="a-numpy-example">
 <h2>A NumPy Example<a class="headerlink" href="#a-numpy-example" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>We will create a fake dataset from the underlying equation
 <span class="math notranslate nohighlight">\(y = 2x + 7\)</span>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">true_target</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">true_target</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
   <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">7</span>
 </pre></div>
 </div>
@@ -595,7 +591,7 @@ w &amp;= (X^TX)^{-1}X^Ty
 only get <strong>observed</strong> targets, and there’s some <strong>noise</strong> on it. The
 reason is that it’s impossible to measure any data out there in the
 world perfectly:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">observed_target</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">observed_target</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Underlying data with Gaussian noise added&quot;&quot;&quot;</span>
   <span class="n">normal_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">()</span> <span class="o">*</span> <span class="mi">3</span>
   <span class="k">return</span> <span class="n">true_target</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">normal_noise</span>
@@ -604,7 +600,7 @@ world perfectly:</p>
 <div class="section" id="creating-data-points">
 <h3>Creating data points<a class="headerlink" href="#creating-data-points" title="Permalink to this headline">¶</a></h3>
 <p>Next, make 50 data points, observations and targets:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
 
 <span class="c1"># Features, X is [1,50]</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
@@ -614,7 +610,7 @@ world perfectly:</p>
 </pre></div>
 </div>
 <p>Adding dummy dimension term to each <span class="math notranslate nohighlight">\(x^i\)</span>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Append 1 for intercept term later</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Append 1 for intercept term later</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -623,7 +619,7 @@ back, it will simply reflect correspondingly in our solution <span class="math n
 </div>
 <div class="section" id="visualize-our-data-points-with-respect-to-the-true-line">
 <h3>Visualize our data points with respect to the true line<a class="headerlink" href="#visualize-our-data-points-with-respect-to-the-true-line" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For plotting</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># For plotting</span>
 <span class="n">features</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span> <span class="c1"># exclude the intercept for plotting</span>
 <span class="n">target</span> <span class="o">=</span> <span class="n">y</span>
 <span class="n">true_targets</span> <span class="o">=</span> <span class="n">true_target</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:])</span>
@@ -646,20 +642,20 @@ back, it will simply reflect correspondingly in our solution <span class="math n
 line as possible, without the knowledge of its existence. For this we
 use linear regression to fit observed data points by following the
 formula from the previous section:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>w = np.linalg.inv(X.T @ X) @ X.T @ y
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">)</span> <span class="o">@</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span>
 </pre></div>
 </div>
 <p>To predict, we compute <span class="math notranslate nohighlight">\(\hat{y} = xw\)</span> for each data point
 <span class="math notranslate nohighlight">\(x^i\)</span>. Here we predict the training set (<code class="docutils literal notranslate"><span class="pre">X</span></code>) itself:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>predicted = X @ w # y_hat
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">predicted</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w</span> <span class="c1"># y_hat</span>
 </pre></div>
 </div>
 <p>To predict a set of new points, you just make it the same format as
 <code class="docutils literal notranslate"><span class="pre">X</span></code>, e.g., rows of data points.</p>
 </div>
 <div class="section" id="visualize-best-fit-line-vs-true-target-line">
-<h3>Visualize best fit line vs. true target line<a class="headerlink" href="#visualize-best-fit-line-vs-true-target-line" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data points&#39;</span><span class="p">)</span>
+<h3>Visualize best fit line vs.&nbsp;true target line<a class="headerlink" href="#visualize-best-fit-line-vs-true-target-line" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data points&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">true_targets</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True target line&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Best fit line&#39;</span><span class="p">)</span>
 
@@ -675,7 +671,7 @@ formula from the previous section:</p>
 <div class="section" id="understanding-the-result">
 <h3>Understanding the result<a class="headerlink" href="#understanding-the-result" title="Permalink to this headline">¶</a></h3>
 <p>And our <span class="math notranslate nohighlight">\(w\)</span> is:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
@@ -688,7 +684,7 @@ will be the intercept term and <code class="docutils literal notranslate"><span 
 predicted line will be in the format of <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">w[1]*x</span> <span class="pre">+</span> <span class="pre">w[0]</span></code>. Recall
 the <em>true</em> equation <span class="math notranslate nohighlight">\(y = 2x + 7\)</span>, you can see that we almost got
 the true slope (2):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;Our slope is&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Our slope is&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
@@ -701,9 +697,9 @@ data into <span class="math notranslate nohighlight">\([0, 1]\)</span> range, ex
 <p>Below is our sum of squared error for the best fit line. Note that the
 number doesn’t mean anything much, apart from that this is the least
 possible loss we would get from any lines that try to fit the data:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>diff = (y - X @ w)
-loss = diff.T @ diff
-print(loss)
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">diff</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">diff</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
@@ -712,8 +708,8 @@ print(loss)
 </div>
 <p>If you don’t want intermediate variable, you can use <code class="docutils literal notranslate"><span class="pre">np.linalg.norm</span></code>,
 but to get the sum of squared loss, you have to square that after:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>loss = np.linalg.norm(y - X @ w, ord=2) ** 2
-print(loss)
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
@@ -731,7 +727,7 @@ values of <code class="docutils literal notranslate"><span class="pre">w[0]</spa
 near <code class="docutils literal notranslate"><span class="pre">w</span> <span class="pre">=</span> <span class="pre">[5.17,2.066]</span></code>, which is our solution.</p>
 <p>To plot that out, first we have to create all possible values of w[0]
 and w[1] in a grid.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="k">import</span> <span class="n">Axes3D</span>
 
 <span class="c1"># Ranges of w0 and w1 to see, centering at the true line</span>
 <span class="n">spanning_radius</span> <span class="o">=</span> <span class="mi">10</span>
@@ -740,24 +736,24 @@ and w[1] in a grid.</p>
 <span class="n">w0grid</span><span class="p">,</span> <span class="n">w1grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">w0range</span><span class="p">,</span> <span class="n">w1range</span><span class="p">)</span>
 
 <span class="n">range_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">w0range</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Number of values in each axis:&quot;</span><span class="p">,</span> <span class="n">range_len</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of values in each axis:&quot;</span><span class="p">,</span> <span class="n">range_len</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Number of values in each axis: 400
 </pre></div>
 </div>
-<p>This means we’ll look into a total of 400*400 = 160,000 values of
-<code class="docutils literal notranslate"><span class="pre">w</span></code>. We have to calculate loss for each pair of <code class="docutils literal notranslate"><span class="pre">w0,</span> <span class="pre">w1</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span># Make [w0, w1] in (2, 14400) shape
-all_w0w1_values = np.hstack([w0grid.flatten()[:,None], w1grid.flatten()[:,None]]).T
+<p>This means we’ll look into a total of 400*400 = 160,000 values of <code class="docutils literal notranslate"><span class="pre">w</span></code>.
+We have to calculate loss for each pair of <code class="docutils literal notranslate"><span class="pre">w0,</span> <span class="pre">w1</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make [w0, w1] in (2, 14400) shape</span>
+<span class="n">all_w0w1_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">w0grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[:,</span><span class="kc">None</span><span class="p">],</span> <span class="n">w1grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[:,</span><span class="kc">None</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span>
 
-# Compute all losses, reshape back to grid format
-all_losses = (np.linalg.norm(y - (X @ all_w0w1_values), axis=0, ord=2) ** 2).reshape((range_len, range_len))
+<span class="c1"># Compute all losses, reshape back to grid format</span>
+<span class="n">all_losses</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">all_w0w1_values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">range_len</span><span class="p">,</span> <span class="n">range_len</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Then, we can plot the loss surface (with minimum at the red point):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">gca</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">w0grid</span><span class="p">,</span> <span class="n">w1grid</span><span class="p">,</span> <span class="n">all_losses</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">)</span>
@@ -782,21 +778,21 @@ all_losses = (np.linalg.norm(y - (X @ all_w0w1_values), axis=0, ord=2) ** 2).res
 <h2>Using sklearn<a class="headerlink" href="#using-sklearn" title="Permalink to this headline">¶</a></h2>
 <p>Using <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> for linear regression is very simple (if you already
 understand all the concepts above).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LinearRegression</span>
 </pre></div>
 </div>
 <p>First we create the classifier <code class="docutils literal notranslate"><span class="pre">clf</span></code>. If <code class="docutils literal notranslate"><span class="pre">fit_intercept</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>
 (default), then it adds the dummy ‘1’ to the <code class="docutils literal notranslate"><span class="pre">X</span></code>. But we already did
 that manually, so set it to <code class="docutils literal notranslate"><span class="pre">False</span></code> here.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">clf</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clf</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Then fit the data:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Check the <span class="math notranslate nohighlight">\(w\)</span> learned, it’s the same as ours:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
@@ -805,11 +801,11 @@ that manually, so set it to <code class="docutils literal notranslate"><span cla
 </div>
 <p>Previously we use <code class="docutils literal notranslate"><span class="pre">X</span> <span class="pre">&#64;</span> <span class="pre">w</span></code> to predict data. For <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> we can use
 <code class="docutils literal notranslate"><span class="pre">clf.predict</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predicted</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">predicted</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>And the result is the same:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:],</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data points&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:],</span> <span class="n">true_targets</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True line&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:],</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Best fit line&#39;</span><span class="p">)</span>
@@ -818,7 +814,7 @@ that manually, so set it to <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 <img alt="../../_images/sphx_glr_linear_regression_tutorial_004.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_linear_regression_tutorial_004.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.807 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.500 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-blog-content-linear-regression-linear-regression-tutorial-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" download="" href="../../_downloads/023c9334e6d74d6fd126ed1784f2b2e1/linear_regression_tutorial.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">linear_regression_tutorial.py</span></code></a></div>

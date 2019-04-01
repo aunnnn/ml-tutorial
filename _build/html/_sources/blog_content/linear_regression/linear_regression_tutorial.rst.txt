@@ -9,10 +9,7 @@
 
 A Complete Guide to Matrix Notation and Linear Regression
 =========================================================
-
-
-
-Let's really understand matrix notation in context of linear regression,
+Let’s really understand matrix notation in context of linear regression,
 from the ground up.
 
 Linear Regression finds the best line, or *hyperplane* :math:`\hat{y}`
@@ -26,7 +23,7 @@ that fits the whole data. This is just a dot product between vector
 .. math::  \hat{y} = w_0 + w_1x_1 + w_2x_2 + ... + w_dx_d 
 
 Notice that we use :math:`w_0` as an intercept term, and thus we need to
-add a dummy dimension with value of "1" (:math:`x_0`) for all data
+add a dummy dimension with value of “1” (:math:`x_0`) for all data
 points :math:`x`. Thus, :math:`x` here is on :math:`d+1` dimension.
 Think of it as the y-intercept term :math:`c` in 2-dimension
 (:math:`y = mx + c`).
@@ -50,12 +47,11 @@ Another way to look at this is that :math:`f(x)` transforms a data point
 
 
 
-
 The Sum of Squared Error Loss
 -----------------------------
 
 The best way to solve this is to find :math:`w` that minimizes the **sum
-of squared errors (SSE)**\ :math:`^\dagger`, or the "error" between all
+of squared errors (SSE)**\ :math:`^\dagger`, or the “error” between all
 of predicted value :math:`\hat{y}^i` and the target :math:`y^i` of
 :math:`i^{th}` data point for :math:`i = 1` to :math:`n`, writing this
 as a loss function :math:`L(w)`:
@@ -68,10 +64,10 @@ as a loss function :math:`L(w)`:
 From now on we refer to a data point (d+1 vector) as :math:`x^i` and its
 corresponding target (scalar) as :math:`y^i`.
 
-Surprisingly, the SSE loss is not from someone's intuition, but it's
+Surprisingly, the SSE loss is not from someone’s intuition, but it’s
 from the assumption that there is **Gaussian noise in our observation**
 of the underlying linear relationship. We will show how this leads to
-SSE loss later, but first let's visualize what we're trying to do.
+SSE loss later, but first let’s visualize what we’re trying to do.
 
 .. figure:: imgs/img_lr_objective.png
    :alt: img
@@ -87,12 +83,13 @@ SSE loss later, but first let's visualize what we're trying to do.
    (along the line) and the actual data points. This is then **squared
    and sum up to get sum of squared error**.
 
-    Linear regression is the method to get the line that fits the given
-    data with the minimum sum of squared error.
+..
 
-*Note: I know it's confusing for the first time, but you'll get used to
-using superscript for indexing data points...*
+   Linear regression is the method to get the line that fits the given
+   data with the minimum sum of squared error.
 
+*Note: I know it’s confusing for the first time, but you’ll get used to
+using superscript for indexing data points…*
 
 
 How to Find the Optimal Solution
@@ -120,19 +117,18 @@ In contrast to closed-form solution, we do not jump directly to the
 optimal answer, instead, we take many steps that lead us near to where
 the optimal answer lives.
 
-Next let's derive the closed-form solution for linear regression. In
+Next let’s derive the closed-form solution for linear regression. In
 order to do that efficiently, we need some matrix notations.
-
 
 
 Going into Matrix Notation
 --------------------------
 
 Writing things down in matrix notation makes things much faster in
-NumPy. **But it's not easy to read matrix notation, especially if you
-study machine learning on your own.** There're things like dot product,
+NumPy. **But it’s not easy to read matrix notation, especially if you
+study machine learning on your own.** There’re things like dot product,
 matrix multiplication, transpose and stuff that you need to keep track
-of in your head. If you're starting out, then please write them on
+of in your head. If you’re starting out, then please write them on
 papers, drawing figures as needed to make you understand. It really pays
 off.
 
@@ -143,7 +139,7 @@ linear algebra easier:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When you see standalone vectors in a matrix notation formula, assumes
-it's a column vector. E.g.,
+it’s a column vector. E.g.,
 
 .. math::
 
@@ -173,7 +169,6 @@ convert it to a column vector, we use ``x.reshape(N,1)`` or
 ``x[:, None]``.
 
 
-
 2. Feature matrix :math:`X` is rows of data points
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -197,12 +192,11 @@ Each row in :math:`X` is a row vector for each data point. Also note
 that we use uppercase letter for matrix.
 
 
-
 3. Again, :math:`w` is a column vector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Like the first point, our :math:`w` will be :math:`d+1` dimension column
-vector with w\_0 as an intercept term:
+vector with w_0 as an intercept term:
 
 .. math::
 
@@ -214,7 +208,6 @@ vector with w\_0 as an intercept term:
    \vdots \\
    w_d 
    \end{bmatrix}
-
 
 
 
@@ -273,7 +266,7 @@ Interestingly, this gives us a column vector of our predictions
    \hat{y}^n \\
    \end{bmatrix} = \hat{y}
 
-It's also good to remind yourself that it sums along dimension of
+It’s also good to remind yourself that it sums along dimension of
 :math:`x^i` and :math:`w`:
 
 .. math::
@@ -286,7 +279,6 @@ It's also good to remind yourself that it sums along dimension of
    \vdots \\
    \sum_{j=0}^{d} x_j^nw_j \\
    \end{bmatrix} 
-
 
 
 
@@ -323,15 +315,14 @@ In fancy term,
 :math:`{\left\lVert x \right\rVert} = \sqrt{\sum_{j=1}^{d} x_i^2}` is
 L2-norm (or Euclidean norm) of :math:`x`. So we can write sum of squared
 as :math:`{\left\lVert x \right\rVert}^2 = \sum_{j=1}^{d} x_i^2`. For
-now, let's not care what norm actually means.
-
+now, let’s not care what norm actually means.
 
 
 Writing SSE Loss in Matrix Notation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now you're ready, let's write the above SSE loss function in matrix
-notation. If you look at :math:`L(w)` closely, it's a sum of squared of
+Now you’re ready, let’s write the above SSE loss function in matrix
+notation. If you look at :math:`L(w)` closely, it’s a sum of squared of
 vector :math:`y - \hat{y}`. This means we can kick-off by applying our
 fifth trick:
 
@@ -339,7 +330,6 @@ fifth trick:
 
 
    L(w) = {\left\lVert y - \hat{y} \right\rVert}^2
-
 
 
 
@@ -364,7 +354,6 @@ Next we encode each of our predicted values (:math:`\hat{y}^i`) in a
 column vector :math:`\hat{y}`. Since :math:`\hat{y}^i` is a dot product
 between :math:`w` and each of :math:`x^i`, we can apply
 `4 <#4.-Dot-products-of-rows-in-matrix-$X$-with-vector-$w$-is-$Xw$>`__:
-
 
 
 .. math::
@@ -428,7 +417,6 @@ between :math:`w` and each of :math:`x^i`, we can apply
 
 
 
-
 Putting all together we get our loss function for linear regression:
 
 .. math::
@@ -438,19 +426,17 @@ Putting all together we get our loss function for linear regression:
 
 In NumPy code, we can compute :math:`L(w) = (y - Xw)^T(y - Xw)`.
 
-There's no intuitive way to come up with this nice formula the first
+There’s no intuitive way to come up with this nice formula the first
 time you saw it. You have to work it out and put things together
-yourself. Then you'll start to memorize the pattern and it'll become
+yourself. Then you’ll start to memorize the pattern and it’ll become
 easier.
-
 
 
 Deriving a Closed-form Solution
 -------------------------------
 
 
-
-To do that, we'll take derivative of :math:`L(w)` with respect to
+To do that, we’ll take derivative of :math:`L(w)` with respect to
 :math:`w`, set to zero and solve for :math:`w`.
 
 Writing matrix notation is already hard, taking derivative of it is even
@@ -495,20 +481,18 @@ dimension of :math:`w`:
 
 
 
-
 Looks like we might be able to apply our fourth point (:math:`Xw`, but
 in this case :math:`w` is :math:`(y - Xw)`. But unlike our fourth point,
 we now sum along data points (:math:`n`) instead of dimensions
 (:math:`d`). For this, we want each row of :math:`X` to be one given
 dimension along all data points instead of one data point with all
 dimensions, and thus we use :math:`X^T` instead of :math:`X`. Finally,
-here's the full derivative in matrix notation:
+here’s the full derivative in matrix notation:
 
 .. math::
 
 
    \nabla L_w = -2X^T(y-Xw)
-
 
 
 
@@ -535,13 +519,11 @@ Move :math:`X^TX` to other side and we get a closed-form solution:
 
 
 
-
 In NumPy, this is:
 
 .. code:: python
 
-    w = np.linalg.inv(X.T @ X) @ X @ y
-
+   w = np.linalg.inv(X.T @ X) @ X @ y
 
 
 A NumPy Example
@@ -549,8 +531,7 @@ A NumPy Example
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     import numpy as np
@@ -569,8 +550,7 @@ We will create a fake dataset from the underlying equation
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     def true_target(x):
@@ -584,14 +564,13 @@ We will create a fake dataset from the underlying equation
 
 
 In practical settings, there is no way we know this exact equation. We
-only get **observed** targets, and there's some **noise** on it. The
-reason is that it's impossible to measure any data out there in the
+only get **observed** targets, and there’s some **noise** on it. The
+reason is that it’s impossible to measure any data out there in the
 world perfectly:
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     def observed_target(x):
@@ -610,13 +589,11 @@ Creating data points
 ~~~~~~~~~~~~~~~~~~~~
 
 
-
 Next, make 50 data points, observations and targets:
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     N = 50
@@ -638,8 +615,7 @@ Adding dummy dimension term to each :math:`x^i`:
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     # Append 1 for intercept term later
@@ -652,9 +628,8 @@ Adding dummy dimension term to each :math:`x^i`:
 
 
 
-Note that it **doesn't matter** here whether we add it to the front or
+Note that it **doesn’t matter** here whether we add it to the front or
 back, it will simply reflect correspondingly in our solution :math:`w`.
-
 
 
 Visualize our data points with respect to the true line
@@ -662,8 +637,7 @@ Visualize our data points with respect to the true line
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     # For plotting
@@ -694,7 +668,6 @@ Compute a closed-form solution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-
 Our goal is to get the line that is closest to that true target (blue)
 line as possible, without the knowledge of its existence. For this we
 use linear regression to fit observed data points by following the
@@ -702,8 +675,7 @@ formula from the previous section:
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     w = np.linalg.inv(X.T @ X) @ X.T @ y
@@ -720,8 +692,7 @@ To predict, we compute :math:`\hat{y} = xw` for each data point
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     predicted = X @ w # y_hat
@@ -737,14 +708,12 @@ To predict a set of new points, you just make it the same format as
 ``X``, e.g., rows of data points.
 
 
-
-Visualize best fit line vs. true target line
+Visualize best fit line vs. true target line
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     plt.scatter(features, target, s=10, label='Data points')
@@ -766,8 +735,7 @@ Visualize best fit line vs. true target line
 
 
 
-That's pretty close.
-
+That’s pretty close.
 
 
 Understanding the result
@@ -777,8 +745,7 @@ And our :math:`w` is:
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     print(w)
@@ -806,8 +773,7 @@ the true slope (2):
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     print("Our slope is", w[1][0])
@@ -826,20 +792,18 @@ the true slope (2):
     Our slope is 2.081626431082087
 
 
-The intercept seems a little off, but that's okay because our data is in
+The intercept seems a little off, but that’s okay because our data is in
 a big range (:math:`x \in [0, 50], y \in [7, 107]`). If we normalize the
 data into :math:`[0, 1]` range, expect it to be much closer.
 
 
-
 Below is our sum of squared error for the best fit line. Note that the
-number doesn't mean anything much, apart from that this is the least
+number doesn’t mean anything much, apart from that this is the least
 possible loss we would get from any lines that try to fit the data:
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     diff = (y - X @ w)
@@ -860,13 +824,12 @@ possible loss we would get from any lines that try to fit the data:
     [[368.25248566]]
 
 
-If you don't want intermediate variable, you can use ``np.linalg.norm``,
+If you don’t want intermediate variable, you can use ``np.linalg.norm``,
 but to get the sum of squared loss, you have to square that after:
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     loss = np.linalg.norm(y - X @ w, ord=2) ** 2
@@ -889,7 +852,7 @@ but to get the sum of squared loss, you have to square that after:
 Visualize the loss surface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Let's confirm that our solution is really the one with lowest loss by
+Let’s confirm that our solution is really the one with lowest loss by
 seeing the loss surface.
 
 Our loss function :math:`L(w)` depends on two dimensions of :math:`w`,
@@ -902,8 +865,7 @@ and w[1] in a grid.
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     from mpl_toolkits.mplot3d import Axes3D
@@ -931,13 +893,12 @@ and w[1] in a grid.
     Number of values in each axis: 400
 
 
-This means we'll look into a total of 400\*400 = 160,000 values of
-``w``. We have to calculate loss for each pair of ``w0, w1``:
+This means we’ll look into a total of 400*400 = 160,000 values of ``w``.
+We have to calculate loss for each pair of ``w0, w1``:
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     # Make [w0, w1] in (2, 14400) shape
@@ -957,8 +918,7 @@ Then, we can plot the loss surface (with minimum at the red point):
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     fig = plt.figure(figsize=(10,6))
@@ -990,7 +950,6 @@ Then, we can plot the loss surface (with minimum at the red point):
 You can notice the bowl **centers** at the solution.
 
 
-
 Using sklearn
 -------------
 
@@ -999,8 +958,7 @@ understand all the concepts above).
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     from sklearn.linear_model import LinearRegression
@@ -1013,13 +971,12 @@ understand all the concepts above).
 
 
 First we create the classifier ``clf``. If ``fit_intercept`` is ``True``
-(default), then it adds the dummy '1' to the ``X``. But we already did
+(default), then it adds the dummy ‘1’ to the ``X``. But we already did
 that manually, so set it to ``False`` here.
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     clf = LinearRegression(fit_intercept=False)
@@ -1035,8 +992,7 @@ Then fit the data:
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     clf.fit(X,y)
@@ -1048,12 +1004,11 @@ Then fit the data:
 
 
 
-Check the :math:`w` learned, it's the same as ours:
+Check the :math:`w` learned, it’s the same as ours:
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     print(clf.coef_)
@@ -1077,8 +1032,7 @@ Previously we use ``X @ w`` to predict data. For ``sklearn`` we can use
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     predicted = clf.predict(X)
@@ -1094,8 +1048,7 @@ And the result is the same:
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     plt.figure()
@@ -1112,7 +1065,10 @@ And the result is the same:
 
 
 
-**Total running time of the script:** ( 0 minutes  0.807 seconds)
+
+.. rst-class:: sphx-glr-timing
+
+   **Total running time of the script:** ( 0 minutes  2.500 seconds)
 
 
 .. _sphx_glr_download_blog_content_linear_regression_linear_regression_tutorial.py:

@@ -6,7 +6,7 @@ A Complete Guide to Matrix Notation and Linear Regression
 
 
 ######################################################################
-# Let's really understand matrix notation in context of linear regression,
+# Let’s really understand matrix notation in context of linear regression,
 # from the ground up.
 # 
 # Linear Regression finds the best line, or *hyperplane* :math:`\hat{y}`
@@ -20,7 +20,7 @@ A Complete Guide to Matrix Notation and Linear Regression
 # .. math::  \hat{y} = w_0 + w_1x_1 + w_2x_2 + ... + w_dx_d 
 # 
 # Notice that we use :math:`w_0` as an intercept term, and thus we need to
-# add a dummy dimension with value of "1" (:math:`x_0`) for all data
+# add a dummy dimension with value of “1” (:math:`x_0`) for all data
 # points :math:`x`. Thus, :math:`x` here is on :math:`d+1` dimension.
 # Think of it as the y-intercept term :math:`c` in 2-dimension
 # (:math:`y = mx + c`).
@@ -50,7 +50,7 @@ A Complete Guide to Matrix Notation and Linear Regression
 # -----------------------------
 # 
 # The best way to solve this is to find :math:`w` that minimizes the **sum
-# of squared errors (SSE)**\ :math:`^\dagger`, or the "error" between all
+# of squared errors (SSE)**\ :math:`^\dagger`, or the “error” between all
 # of predicted value :math:`\hat{y}^i` and the target :math:`y^i` of
 # :math:`i^{th}` data point for :math:`i = 1` to :math:`n`, writing this
 # as a loss function :math:`L(w)`:
@@ -63,10 +63,10 @@ A Complete Guide to Matrix Notation and Linear Regression
 # From now on we refer to a data point (d+1 vector) as :math:`x^i` and its
 # corresponding target (scalar) as :math:`y^i`.
 # 
-# Surprisingly, the SSE loss is not from someone's intuition, but it's
+# Surprisingly, the SSE loss is not from someone’s intuition, but it’s
 # from the assumption that there is **Gaussian noise in our observation**
 # of the underlying linear relationship. We will show how this leads to
-# SSE loss later, but first let's visualize what we're trying to do.
+# SSE loss later, but first let’s visualize what we’re trying to do.
 # 
 # .. figure:: imgs/img_lr_objective.png
 #    :alt: img
@@ -82,11 +82,13 @@ A Complete Guide to Matrix Notation and Linear Regression
 #    (along the line) and the actual data points. This is then **squared
 #    and sum up to get sum of squared error**.
 # 
-#     Linear regression is the method to get the line that fits the given
-#     data with the minimum sum of squared error.
+# ..
 # 
-# *Note: I know it's confusing for the first time, but you'll get used to
-# using superscript for indexing data points...*
+#    Linear regression is the method to get the line that fits the given
+#    data with the minimum sum of squared error.
+# 
+# *Note: I know it’s confusing for the first time, but you’ll get used to
+# using superscript for indexing data points…*
 # 
 
 
@@ -116,7 +118,7 @@ A Complete Guide to Matrix Notation and Linear Regression
 # optimal answer, instead, we take many steps that lead us near to where
 # the optimal answer lives.
 # 
-# Next let's derive the closed-form solution for linear regression. In
+# Next let’s derive the closed-form solution for linear regression. In
 # order to do that efficiently, we need some matrix notations.
 # 
 
@@ -126,10 +128,10 @@ A Complete Guide to Matrix Notation and Linear Regression
 # --------------------------
 # 
 # Writing things down in matrix notation makes things much faster in
-# NumPy. **But it's not easy to read matrix notation, especially if you
-# study machine learning on your own.** There're things like dot product,
+# NumPy. **But it’s not easy to read matrix notation, especially if you
+# study machine learning on your own.** There’re things like dot product,
 # matrix multiplication, transpose and stuff that you need to keep track
-# of in your head. If you're starting out, then please write them on
+# of in your head. If you’re starting out, then please write them on
 # papers, drawing figures as needed to make you understand. It really pays
 # off.
 # 
@@ -140,7 +142,7 @@ A Complete Guide to Matrix Notation and Linear Regression
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 # When you see standalone vectors in a matrix notation formula, assumes
-# it's a column vector. E.g.,
+# it’s a column vector. E.g.,
 # 
 # .. math::
 # 
@@ -201,7 +203,7 @@ A Complete Guide to Matrix Notation and Linear Regression
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 # 
 # Like the first point, our :math:`w` will be :math:`d+1` dimension column
-# vector with w\_0 as an intercept term:
+# vector with w_0 as an intercept term:
 # 
 # .. math::
 # 
@@ -273,7 +275,7 @@ A Complete Guide to Matrix Notation and Linear Regression
 #    \hat{y}^n \\
 #    \end{bmatrix} = \hat{y}
 # 
-# It's also good to remind yourself that it sums along dimension of
+# It’s also good to remind yourself that it sums along dimension of
 # :math:`x^i` and :math:`w`:
 # 
 # .. math::
@@ -324,7 +326,7 @@ A Complete Guide to Matrix Notation and Linear Regression
 # :math:`{\left\lVert x \right\rVert} = \sqrt{\sum_{j=1}^{d} x_i^2}` is
 # L2-norm (or Euclidean norm) of :math:`x`. So we can write sum of squared
 # as :math:`{\left\lVert x \right\rVert}^2 = \sum_{j=1}^{d} x_i^2`. For
-# now, let's not care what norm actually means.
+# now, let’s not care what norm actually means.
 # 
 
 
@@ -332,8 +334,8 @@ A Complete Guide to Matrix Notation and Linear Regression
 # Writing SSE Loss in Matrix Notation
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
-# Now you're ready, let's write the above SSE loss function in matrix
-# notation. If you look at :math:`L(w)` closely, it's a sum of squared of
+# Now you’re ready, let’s write the above SSE loss function in matrix
+# notation. If you look at :math:`L(w)` closely, it’s a sum of squared of
 # vector :math:`y - \hat{y}`. This means we can kick-off by applying our
 # fifth trick:
 # 
@@ -443,9 +445,9 @@ A Complete Guide to Matrix Notation and Linear Regression
 # 
 # In NumPy code, we can compute :math:`L(w) = (y - Xw)^T(y - Xw)`.
 # 
-# There's no intuitive way to come up with this nice formula the first
+# There’s no intuitive way to come up with this nice formula the first
 # time you saw it. You have to work it out and put things together
-# yourself. Then you'll start to memorize the pattern and it'll become
+# yourself. Then you’ll start to memorize the pattern and it’ll become
 # easier.
 # 
 
@@ -457,7 +459,7 @@ A Complete Guide to Matrix Notation and Linear Regression
 
 
 ######################################################################
-# To do that, we'll take derivative of :math:`L(w)` with respect to
+# To do that, we’ll take derivative of :math:`L(w)` with respect to
 # :math:`w`, set to zero and solve for :math:`w`.
 # 
 # Writing matrix notation is already hard, taking derivative of it is even
@@ -510,7 +512,7 @@ A Complete Guide to Matrix Notation and Linear Regression
 # (:math:`d`). For this, we want each row of :math:`X` to be one given
 # dimension along all data points instead of one data point with all
 # dimensions, and thus we use :math:`X^T` instead of :math:`X`. Finally,
-# here's the full derivative in matrix notation:
+# here’s the full derivative in matrix notation:
 # 
 # .. math::
 # 
@@ -550,7 +552,7 @@ A Complete Guide to Matrix Notation and Linear Regression
 # 
 # .. code:: python
 # 
-#     w = np.linalg.inv(X.T @ X) @ X @ y
+#    w = np.linalg.inv(X.T @ X) @ X @ y
 # 
 
 
@@ -575,8 +577,8 @@ def true_target(x):
 
 ######################################################################
 # In practical settings, there is no way we know this exact equation. We
-# only get **observed** targets, and there's some **noise** on it. The
-# reason is that it's impossible to measure any data out there in the
+# only get **observed** targets, and there’s some **noise** on it. The
+# reason is that it’s impossible to measure any data out there in the
 # world perfectly:
 # 
 
@@ -614,7 +616,7 @@ X = np.hstack([np.ones((N, 1)), X])
 
 
 ######################################################################
-# Note that it **doesn't matter** here whether we add it to the front or
+# Note that it **doesn’t matter** here whether we add it to the front or
 # back, it will simply reflect correspondingly in our solution :math:`w`.
 # 
 
@@ -670,7 +672,7 @@ predicted = X @ w # y_hat
 
 
 ######################################################################
-# Visualize best fit line vs. true target line
+# Visualize best fit line vs. true target line
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 
@@ -685,7 +687,7 @@ plt.show()
 
 
 ######################################################################
-# That's pretty close.
+# That’s pretty close.
 # 
 
 
@@ -711,7 +713,7 @@ print("Our slope is", w[1][0])
 
 
 ######################################################################
-# The intercept seems a little off, but that's okay because our data is in
+# The intercept seems a little off, but that’s okay because our data is in
 # a big range (:math:`x \in [0, 50], y \in [7, 107]`). If we normalize the
 # data into :math:`[0, 1]` range, expect it to be much closer.
 # 
@@ -719,7 +721,7 @@ print("Our slope is", w[1][0])
 
 ######################################################################
 # Below is our sum of squared error for the best fit line. Note that the
-# number doesn't mean anything much, apart from that this is the least
+# number doesn’t mean anything much, apart from that this is the least
 # possible loss we would get from any lines that try to fit the data:
 # 
 
@@ -729,7 +731,7 @@ print(loss)
 
 
 ######################################################################
-# If you don't want intermediate variable, you can use ``np.linalg.norm``,
+# If you don’t want intermediate variable, you can use ``np.linalg.norm``,
 # but to get the sum of squared loss, you have to square that after:
 # 
 
@@ -741,7 +743,7 @@ print(loss)
 # Visualize the loss surface
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
-# Let's confirm that our solution is really the one with lowest loss by
+# Let’s confirm that our solution is really the one with lowest loss by
 # seeing the loss surface.
 # 
 # Our loss function :math:`L(w)` depends on two dimensions of :math:`w`,
@@ -766,8 +768,8 @@ print("Number of values in each axis:", range_len)
 
 
 ######################################################################
-# This means we'll look into a total of 400\*400 = 160,000 values of
-# ``w``. We have to calculate loss for each pair of ``w0, w1``:
+# This means we’ll look into a total of 400*400 = 160,000 values of ``w``.
+# We have to calculate loss for each pair of ``w0, w1``:
 # 
 
 # Make [w0, w1] in (2, 14400) shape
@@ -816,7 +818,7 @@ from sklearn.linear_model import LinearRegression
 
 ######################################################################
 # First we create the classifier ``clf``. If ``fit_intercept`` is ``True``
-# (default), then it adds the dummy '1' to the ``X``. But we already did
+# (default), then it adds the dummy ‘1’ to the ``X``. But we already did
 # that manually, so set it to ``False`` here.
 # 
 
@@ -831,7 +833,7 @@ clf.fit(X,y)
 
 
 ######################################################################
-# Check the :math:`w` learned, it's the same as ours:
+# Check the :math:`w` learned, it’s the same as ours:
 # 
 
 print(clf.coef_)

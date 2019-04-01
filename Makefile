@@ -43,8 +43,8 @@ doc:
 	cp -r ./_build/* docs
 
 serve:
-	python -m http.server 9999 --directory ./_build/html
+	python3 -m http.server 8000 --directory ./_build/html
 
 clean-cache:
 	make clean
-	rm -rf blog_content 
+	rm -rf blog_content

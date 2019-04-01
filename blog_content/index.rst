@@ -2,12 +2,40 @@
 
 
 
+.. _sphx_glr_blog_content:
+
+
+
 .. raw:: html
 
     <div style='clear:both'></div>
 
 
 
+.. _sphx_glr_blog_content_linear_regression:
+
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="`Previously &lt;/blog_content/linear_regression/linear_regression_tutorial&gt;`__, we mentioned that ...">
+
+.. only:: html
+
+    .. figure:: /blog_content/linear_regression/images/thumb/sphx_glr_mle_lr_tutorial_thumb.png
+
+        :ref:`sphx_glr_blog_content_linear_regression_mle_lr_tutorial.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /blog_content/linear_regression/mle_lr_tutorial
 
 .. raw:: html
 
