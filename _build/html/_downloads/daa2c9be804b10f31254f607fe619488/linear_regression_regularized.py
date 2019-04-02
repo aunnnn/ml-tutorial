@@ -188,7 +188,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |image0|
+# |l2 surface|
 # 
 # .. raw:: html
 # 
@@ -216,7 +216,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |image1|
+# |l2 surface many lambdas|
 # 
 # .. raw:: html
 # 
@@ -231,7 +231,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |image2|
+# |l1 surface|
 # 
 # .. raw:: html
 # 
@@ -250,7 +250,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |image3|
+# |norm contours|
 # 
 # .. raw:: html
 # 
@@ -261,10 +261,10 @@ Linear Regression with Regularization
 # These shapes can hint us different behaviors of each norm, which brings
 # us to the next question.
 # 
-# .. |image0| image:: imgs/img_l2_surface.png
-# .. |image1| image:: imgs/img_l2_surface_lambdas.png
-# .. |image2| image:: imgs/img_l1_surface.png
-# .. |image3| image:: imgs/img_penalty_contours.png
+# .. |l2 surface| image:: imgs/img_l2_surface.png
+# .. |l2 surface many lambdas| image:: imgs/img_l2_surface_lambdas.png
+# .. |l1 surface| image:: imgs/img_l1_surface.png
+# .. |norm contours| image:: imgs/img_penalty_contours.png
 # 
 # 
 
@@ -294,7 +294,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |image0|
+# |ridge regression|
 # 
 # .. raw:: html
 # 
@@ -307,7 +307,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |image1|
+# |lasso regression sol 30|
 # 
 # .. raw:: html
 # 
@@ -323,7 +323,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |image2|
+# |ridge regression sol 60|
 # 
 # .. raw:: html
 # 
@@ -342,7 +342,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |image3|
+# |lasso regression|
 # 
 # .. raw:: html
 # 
@@ -354,7 +354,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |image4| |You can see it tends to drift to a corner.|
+# |lasso regression sol 30| |lasso regression sol 60|
 # 
 # .. raw:: html
 # 
@@ -372,7 +372,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |image6|
+# |l1 vs l2|
 # 
 # .. raw:: html
 # 
@@ -384,12 +384,12 @@ Linear Regression with Regularization
 # toward a corner, because it’s **the same loss along the line** anyway (I
 # mean, why not?) and thus is exploited, if the opportunity arises.
 # 
-# .. |image0| image:: imgs/img_ridge_regression.png
-# .. |image1| image:: imgs/img_ridge_sol_30.png
-# .. |image2| image:: imgs/img_ridge_sol_60.png
-# .. |image3| image:: imgs/img_lasso_regression.png
-# .. |image4| image:: imgs/img_lasso_sol_30.png
-# .. |You can see it tends to drift to a corner.| image:: imgs/img_lasso_sol_60.png
-# .. |image6| image:: imgs/img_l1_vs_l2_contour.png
+# .. |ridge regression| image:: imgs/img_ridge_regression.png
+# .. |lasso regression sol 30| image:: imgs/img_ridge_sol_30.png
+# .. |ridge regression sol 60| image:: imgs/img_ridge_sol_60.png
+# .. |lasso regression| image:: imgs/img_lasso_regression.png
+# .. |lasso regression sol 30| image:: imgs/img_lasso_sol_30.png
+# .. |lasso regression sol 60| image:: imgs/img_lasso_sol_60.png
+# .. |l1 vs l2| image:: imgs/img_l1_vs_l2_contour.png
 # 
 # 

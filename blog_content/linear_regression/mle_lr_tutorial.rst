@@ -20,7 +20,7 @@ leads to our loss/objective function.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.028 seconds)
+   **Total running time of the script:** ( 0 minutes  0.023 seconds)
 
 
 .. _sphx_glr_download_blog_content_linear_regression_mle_lr_tutorial.py:
