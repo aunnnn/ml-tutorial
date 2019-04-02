@@ -68,10 +68,15 @@ A Complete Guide to Matrix Notation and Linear Regression
 # of the underlying linear relationship. We will show how this leads to
 # SSE loss later, but first let’s visualize what we’re trying to do.
 # 
-# .. figure:: imgs/img_lr_objective.png
-#    :alt: img
+# .. raw:: html
 # 
-#    img
+#    <center>
+# 
+# |image0|
+# 
+# .. raw:: html
+# 
+#    </center>
 # 
 # 1. There is a true line, the true linear relationship that we want to
 #    discover (blue line).
@@ -89,6 +94,9 @@ A Complete Guide to Matrix Notation and Linear Regression
 # 
 # *Note: I know it’s confusing for the first time, but you’ll get used to
 # using superscript for indexing data points…*
+# 
+# .. |image0| image:: imgs/img_lr_objective.png
+# 
 # 
 
 

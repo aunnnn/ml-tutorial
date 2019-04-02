@@ -69,10 +69,15 @@ from the assumption that there is **Gaussian noise in our observation**
 of the underlying linear relationship. We will show how this leads to
 SSE loss later, but first let’s visualize what we’re trying to do.
 
-.. figure:: imgs/img_lr_objective.png
-   :alt: img
+.. raw:: html
 
-   img
+   <center>
+
+|image0|
+
+.. raw:: html
+
+   </center>
 
 1. There is a true line, the true linear relationship that we want to
    discover (blue line).
@@ -90,6 +95,9 @@ SSE loss later, but first let’s visualize what we’re trying to do.
 
 *Note: I know it’s confusing for the first time, but you’ll get used to
 using superscript for indexing data points…*
+
+.. |image0| image:: imgs/img_lr_objective.png
+
 
 
 How to Find the Optimal Solution
@@ -1068,7 +1076,7 @@ And the result is the same:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.502 seconds)
+   **Total running time of the script:** ( 0 minutes  1.879 seconds)
 
 
 .. _sphx_glr_download_blog_content_linear_regression_linear_regression_tutorial.py:
