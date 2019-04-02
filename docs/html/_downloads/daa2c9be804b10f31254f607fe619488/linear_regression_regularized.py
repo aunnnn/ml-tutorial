@@ -188,7 +188,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |l2 surface|
+# | |l2 surface|
 # 
 # .. raw:: html
 # 
@@ -216,7 +216,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |l2 surface many lambdas|
+# | |l2 surface many lambdas|
 # 
 # .. raw:: html
 # 
@@ -231,7 +231,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |l1 surface|
+# | |l1 surface|
 # 
 # .. raw:: html
 # 
@@ -250,7 +250,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |norm contours|
+# | |norm contours|
 # 
 # .. raw:: html
 # 
@@ -294,7 +294,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |ridge regression|
+# | |ridge regression|
 # 
 # .. raw:: html
 # 
@@ -307,7 +307,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |lasso regression sol 30|
+# | |lasso regression sol 30|
 # 
 # .. raw:: html
 # 
@@ -323,7 +323,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |ridge regression sol 60|
+# | |ridge regression sol 60|
 # 
 # .. raw:: html
 # 
@@ -342,7 +342,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |lasso regression|
+# | |lasso regression|
 # 
 # .. raw:: html
 # 
@@ -354,7 +354,9 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |lasso regression sol 30| |lasso regression sol 60|
+# | |lasso regression sol 30|
+# 
+# | |lasso regression sol 60|
 # 
 # .. raw:: html
 # 
@@ -372,7 +374,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# |l1 vs l2|
+# | |l1 vs l2|
 # 
 # .. raw:: html
 # 

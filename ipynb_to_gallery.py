@@ -11,7 +11,7 @@ import pypandoc as pdoc
 import json
 import glob
 
-extra_args = ['-fmarkdown-implicit_figures']
+extra_args = [] # ['-fmarkdown-implicit_figures']
 
 def convert_ipynb_to_gallery(file_name):
     python_file = ""

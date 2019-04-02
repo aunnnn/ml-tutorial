@@ -24,7 +24,7 @@ import glob
 
 # -- Project information -----------------------------------------------------
 
-project = 'ML Tutorial'
+project = 'Friendly ML Tutorial'
 copyright = '2019, aunnnn'
 author = 'aunnnn'
 

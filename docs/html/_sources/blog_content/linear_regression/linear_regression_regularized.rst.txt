@@ -177,7 +177,7 @@ L2 loss surface
 
    <center>
 
-|l2 surface|
+| |l2 surface|
 
 .. raw:: html
 
@@ -205,7 +205,7 @@ penalizes The two subsequent ones has lambdas of 0.5 and 1.0.
 
    <center>
 
-|l2 surface many lambdas|
+| |l2 surface many lambdas|
 
 .. raw:: html
 
@@ -220,7 +220,7 @@ Below is the loss surface of L1 penalty:
 
    <center>
 
-|l1 surface|
+| |l1 surface|
 
 .. raw:: html
 
@@ -239,7 +239,7 @@ In the same manner, you get “unit” shapes in other norms:
 
    <center>
 
-|norm contours|
+| |norm contours|
 
 .. raw:: html
 
@@ -281,7 +281,7 @@ both surfaces are summed up** (right):
 
    <center>
 
-|ridge regression|
+| |ridge regression|
 
 .. raw:: html
 
@@ -294,7 +294,7 @@ sum between linear regression and L2 penalty loss is lowest:
 
    <center>
 
-|lasso regression sol 30|
+| |lasso regression sol 30|
 
 .. raw:: html
 
@@ -310,7 +310,7 @@ of :math:`w_i` more** so it wants to get to where they’re all zeros:
 
    <center>
 
-|ridge regression sol 60|
+| |ridge regression sol 60|
 
 .. raw:: html
 
@@ -329,7 +329,7 @@ For Lasso:
 
    <center>
 
-|lasso regression|
+| |lasso regression|
 
 .. raw:: html
 
@@ -341,7 +341,9 @@ And this is the Lasso solution for lambda = 30 and 60:
 
    <center>
 
-|lasso regression sol 30| |lasso regression sol 60|
+| |lasso regression sol 30|
+
+| |lasso regression sol 60|
 
 .. raw:: html
 
@@ -359,7 +361,7 @@ L2 norm reaches out much farther than L1 norm:
 
    <center>
 
-|l1 vs l2|
+| |l1 vs l2|
 
 .. raw:: html
 
