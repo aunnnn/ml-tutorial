@@ -9,18 +9,18 @@
 
 How Maximum Likelihood Estimation Leads to Linear Regression
 ============================================================
-
 `Previously </blog_content/linear_regression/linear_regression_tutorial>`__,
 we mentioned that the loss function of Linear Regression comes from the
 assumption of a line with Gaussian noise, but why is that?
-First let’s see what *Maximum Likelihood Estimation* (MLE) is and how it
-leads to our loss/objective function.
+
+Maximum Likelihood Estimation
+-----------------------------
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.027 seconds)
+   **Total running time of the script:** ( 0 minutes  0.030 seconds)
 
 
 .. _sphx_glr_download_blog_content_linear_regression_mle_lr_tutorial.py:

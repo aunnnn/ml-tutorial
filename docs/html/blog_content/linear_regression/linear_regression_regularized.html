@@ -1,182 +1,88 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Linear Regression with Regularization &mdash; Friendly ML Tutorial  documentation</title>
-  
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
-  
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Linear Regression with Regularization</title>
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <link rel="stylesheet" href="../../_static/pygments.css">
+      <link rel="stylesheet" href="../../_static/theme.css">
     
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+      
+      <script src="../../_static/theme-vendors.js"></script>
+      <script src="../../_static/theme.js" defer></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>    
 
     
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="prev" title="A Complete Guide to Matrix Notation and Linear Regression" href="linear_regression_tutorial.html" /> 
+  </head>
 
+  <body><div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../../index.html" class="home-link">
+    <span class="site-name">Friendly ML Tutorial</span>
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  <div class="nav-item">
+    <a href="linear_regression_tutorial.html"
+       class="nav-link  router-link-active">
+       Contents:
+    </a>
+  </div>
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  <div class="nav-item">
+    <a href="linear_regression_tutorial.html"
+       class="nav-link  router-link-active">
+       Contents:
+    </a>
+  </div>
+
+
+
+            
+          </navlinks><div class="sidebar-links" role="navigation" aria-label="main navigation">
   
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="A Complete Guide to Matrix Notation and Linear Regression" href="linear_regression_tutorial.html" /> 
-</head>
-
-<body class="wy-body-for-nav">
-
-   
-  <div class="wy-grid-for-nav">
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-          
-
-          
-            <a href="../../index.html" class="icon icon-home"> Friendly ML Tutorial
-          
-
-          
-          </a>
-
-          
-            
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+  <div class="sidebar-group">
+    <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="linear_regression_tutorial.html">A Complete Guide to Matrix Notation and Linear Regression</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Linear Regression with Regularization</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#the-need-for-regularization">The Need for Regularization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#l2-and-l1-penalty">L2 and L1 Penalty</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#no-penalty-or-linear">0. No Penalty (or Linear)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#l2-penalty-or-ridge">1. L2 Penalty (or Ridge)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#closed-form-solution-of-ridge">Closed-form solution of Ridge</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#l1-penalty-or-lasso">2. L1 Penalty (or Lasso)</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#visualizing-the-loss-surface-with-regularization">Visualizing the Loss Surface with Regularization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#l2-loss-surface">L2 loss surface</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#l2-loss-surface-under-different-lambdas">L2 loss surface under different lambdas</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#l1-loss-surface">L1 loss surface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#contour-of-different-penalty-terms">Contour of different penalty terms</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#which-one-to-use-l1-or-l2">Which one to use, L1 or L2?</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#geometrical-explanation">Geometrical Explanation</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#l2-and-l1-penalty">L2 and L1 Penalty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visualizing-the-loss-surface-with-regularization">Visualizing the Loss Surface with Regularization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#which-one-to-use-l1-or-l2">Which one to use, L1 or L2?</a></li>
 </ul>
 </li>
 </ul>
 
-            
-          
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">Friendly ML Tutorial</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
-        
-      <li>Linear Regression with Regularization</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="../../_sources/blog_content/linear_regression/linear_regression_regularized.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
+  </div>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
+        </sidebar>
+
+      <page>
+          <div class="content">
             
   <div class="sphx-glr-download-link-note admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Click <a class="reference internal" href="#sphx-glr-download-blog-content-linear-regression-linear-regression-regularized-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-blog-content-linear-regression-linear-regression-regularized-py"><span class="std std-ref">here</span></a> to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="linear-regression-with-regularization">
 <span id="sphx-glr-blog-content-linear-regression-linear-regression-regularized-py"></span><h1>Linear Regression with Regularization<a class="headerlink" href="#linear-regression-with-regularization" title="Permalink to this headline">¶</a></h1>
@@ -385,9 +291,11 @@ mean, why not?) and thus is exploited, if the opportunity arises.</p>
 <p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-blog-content-linear-regression-linear-regression-regularized-py">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" download="" href="../../_downloads/daa2c9be804b10f31254f607fe619488/linear_regression_regularized.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">linear_regression_regularized.py</span></code></a></div>
+<p><a class="reference download internal" download="" href="../../_downloads/daa2c9be804b10f31254f607fe619488/linear_regression_regularized.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">linear_regression_regularized.py</span></code></a></p>
+</div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" download="" href="../../_downloads/2cfd6c4f7cdc2085b0c7c37174eaac6b/linear_regression_regularized.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">linear_regression_regularized.ipynb</span></code></a></div>
+<p><a class="reference download internal" download="" href="../../_downloads/2cfd6c4f7cdc2085b0c7c37174eaac6b/linear_regression_regularized.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">linear_regression_regularized.ipynb</span></code></a></p>
+</div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
@@ -395,50 +303,20 @@ mean, why not?) and thus is exploited, if the opportunity arises.</p>
 </div>
 
 
-           </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="linear_regression_tutorial.html" class="btn btn-neutral float-left" title="A Complete Guide to Matrix Notation and Linear Regression" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2019, aunnnn
-
-    </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
-
-        </div>
-      </div>
-
-    </section>
-
-  </div>
-  
-
-
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script>
-
-  
-  
-    
-   
-
-</body>
+          <div class="page-nav">
+            <div class="inner">
+  <span class="prev">
+    <a href="linear_regression_tutorial.html"
+       title="previous chapter">← A Complete Guide to Matrix Notation and Linear Regression</a>
+  </span>
+<div class="footer" role="contentinfo">
+      &#169; Copyright 2019, aunnnn.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+  </div></body>
 </html>

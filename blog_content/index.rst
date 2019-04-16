@@ -19,7 +19,7 @@
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="`Previously &lt;/blog_content/linear_regression/linear_regression_tutorial&gt;`__, we mentioned that ...">
+    <div class="sphx-glr-thumbcontainer" tooltip="How Maximum Likelihood Estimation Leads to Linear Regression">
 
 .. only:: html
 

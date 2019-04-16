@@ -6,6 +6,8 @@
 Welcome to a Friendly Guide to Machine Learning!
 ================================================
 
+Just enough theory to get you going.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

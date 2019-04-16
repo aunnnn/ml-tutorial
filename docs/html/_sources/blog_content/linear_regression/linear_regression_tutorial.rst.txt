@@ -51,10 +51,10 @@ The Sum of Squared Error Loss
 -----------------------------
 
 The best way to solve this is to find :math:`w` that minimizes the **sum
-of squared errors (SSE)**\ :math:`^\dagger`, or the “error” between all
-of predicted value :math:`\hat{y}^i` and the target :math:`y^i` of
-:math:`i^{th}` data point for :math:`i = 1` to :math:`n`, writing this
-as a loss function :math:`L(w)`:
+of squared errors (SSE)**, or the “error” between all of predicted value
+:math:`\hat{y}^i` and the target :math:`y^i` of :math:`i^{th}` data
+point for :math:`i = 1` to :math:`n`, writing this as a loss function
+:math:`L(w)`:
 
 .. math::
 
@@ -62,7 +62,9 @@ as a loss function :math:`L(w)`:
    L(w) = \sum_{i=1}^{n} \left( y^i - \hat{y}^i \right)^2 = \sum_{i=1}^{n} \left( y^i - wx^i \right)^2
 
 From now on we refer to a data point (d+1 vector) as :math:`x^i` and its
-corresponding target (scalar) as :math:`y^i`.
+corresponding target (scalar) as :math:`y^i`. I know it’s confusing for
+the first time, but you’ll get used to using superscript for indexing
+data points.
 
 Surprisingly, the SSE loss is not from someone’s intuition, but it’s
 from the assumption that there is **Gaussian noise in our observation**
@@ -73,7 +75,7 @@ SSE loss later, but first let’s visualize what we’re trying to do.
 
    <center>
 
-|image0|
+| |linear regression|
 
 .. raw:: html
 
@@ -93,10 +95,7 @@ SSE loss later, but first let’s visualize what we’re trying to do.
    Linear regression is the method to get the line that fits the given
    data with the minimum sum of squared error.
 
-*Note: I know it’s confusing for the first time, but you’ll get used to
-using superscript for indexing data points…*
-
-.. |image0| image:: imgs/img_lr_objective.png
+.. |linear regression| image:: imgs/img_lr_objective.png
 
 
 
@@ -1076,7 +1075,7 @@ And the result is the same:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.008 seconds)
+   **Total running time of the script:** ( 0 minutes  1.083 seconds)
 
 
 .. _sphx_glr_download_blog_content_linear_regression_linear_regression_tutorial.py:

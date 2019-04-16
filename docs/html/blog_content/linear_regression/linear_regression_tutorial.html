@@ -1,186 +1,90 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>A Complete Guide to Matrix Notation and Linear Regression &mdash; Friendly ML Tutorial  documentation</title>
-  
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
-  
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>A Complete Guide to Matrix Notation and Linear Regression</title>
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <link rel="stylesheet" href="../../_static/pygments.css">
+      <link rel="stylesheet" href="../../_static/theme.css">
     
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+      
+      <script src="../../_static/theme-vendors.js"></script>
+      <script src="../../_static/theme.js" defer></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>    
 
     
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="Linear Regression with Regularization" href="linear_regression_regularized.html" />
+  <link rel="prev" title="Welcome to a Friendly Guide to Machine Learning!" href="../../index.html" /> 
+  </head>
 
+  <body><div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../../index.html" class="home-link">
+    <span class="site-name">Friendly ML Tutorial</span>
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  <div class="nav-item">
+    <a href="#"
+       class="nav-link  router-link-active">
+       Contents:
+    </a>
+  </div>
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  <div class="nav-item">
+    <a href="#"
+       class="nav-link  router-link-active">
+       Contents:
+    </a>
+  </div>
+
+
+
+            
+          </navlinks><div class="sidebar-links" role="navigation" aria-label="main navigation">
   
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Linear Regression with Regularization" href="linear_regression_regularized.html" />
-    <link rel="prev" title="Welcome to a Friendly Guide to Machine Learning!" href="../../index.html" /> 
-</head>
-
-<body class="wy-body-for-nav">
-
-   
-  <div class="wy-grid-for-nav">
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-          
-
-          
-            <a href="../../index.html" class="icon icon-home"> Friendly ML Tutorial
-          
-
-          
-          </a>
-
-          
-            
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+  <div class="sidebar-group">
+    <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">A Complete Guide to Matrix Notation and Linear Regression</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-sum-of-squared-error-loss">The Sum of Squared Error Loss</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#how-to-find-the-optimal-solution">How to Find the Optimal Solution</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#going-into-matrix-notation">Going into Matrix Notation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#always-a-column-vector">1. Always a <em>column</em> vector</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#feature-matrix-x-is-rows-of-data-points">2. Feature matrix <span class="math notranslate nohighlight">\(X\)</span> is rows of data points</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#again-w-is-a-column-vector">3. Again, <span class="math notranslate nohighlight">\(w\)</span> is a column vector</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#dot-products-of-rows-in-matrix-x-with-vector-w-is-xw">4. Dot products of rows in matrix <span class="math notranslate nohighlight">\(X\)</span> with vector <span class="math notranslate nohighlight">\(w\)</span> is <span class="math notranslate nohighlight">\(Xw\)</span></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#sum-of-squared-is-x-tx">5. Sum of Squared is <span class="math notranslate nohighlight">\(x^Tx\)</span></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#writing-sse-loss-in-matrix-notation">Writing SSE Loss in Matrix Notation</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-sum-of-squared-error-loss">The Sum of Squared Error Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#going-into-matrix-notation">Going into Matrix Notation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deriving-a-closed-form-solution">Deriving a Closed-form Solution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#a-numpy-example">A NumPy Example</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#creating-data-points">Creating data points</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#visualize-our-data-points-with-respect-to-the-true-line">Visualize our data points with respect to the true line</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#compute-a-closed-form-solution">Compute a closed-form solution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#visualize-best-fit-line-vs-true-target-line">Visualize best fit line vs.&nbsp;true target line</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#understanding-the-result">Understanding the result</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#visualize-the-loss-surface">Visualize the loss surface</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#a-numpy-example">A NumPy Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#using-sklearn">Using sklearn</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="linear_regression_regularized.html">Linear Regression with Regularization</a></li>
 </ul>
 
-            
-          
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">Friendly ML Tutorial</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
-        
-      <li>A Complete Guide to Matrix Notation and Linear Regression</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="../../_sources/blog_content/linear_regression/linear_regression_tutorial.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
+  </div>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
+        </sidebar>
+
+      <page>
+          <div class="content">
             
   <div class="sphx-glr-download-link-note admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Click <a class="reference internal" href="#sphx-glr-download-blog-content-linear-regression-linear-regression-tutorial-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-blog-content-linear-regression-linear-regression-tutorial-py"><span class="std std-ref">here</span></a> to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="a-complete-guide-to-matrix-notation-and-linear-regression">
 <span id="sphx-glr-blog-content-linear-regression-linear-regression-tutorial-py"></span><h1>A Complete Guide to Matrix Notation and Linear Regression<a class="headerlink" href="#a-complete-guide-to-matrix-notation-and-linear-regression" title="Permalink to this headline">¶</a></h1>
@@ -215,34 +119,37 @@ x_d
 <div class="section" id="the-sum-of-squared-error-loss">
 <h2>The Sum of Squared Error Loss<a class="headerlink" href="#the-sum-of-squared-error-loss" title="Permalink to this headline">¶</a></h2>
 <p>The best way to solve this is to find <span class="math notranslate nohighlight">\(w\)</span> that minimizes the <strong>sum
-of squared errors (SSE)</strong><span class="math notranslate nohighlight">\(^\dagger\)</span>, or the “error” between all
-of predicted value <span class="math notranslate nohighlight">\(\hat{y}^i\)</span> and the target <span class="math notranslate nohighlight">\(y^i\)</span> of
-<span class="math notranslate nohighlight">\(i^{th}\)</span> data point for <span class="math notranslate nohighlight">\(i = 1\)</span> to <span class="math notranslate nohighlight">\(n\)</span>, writing this
-as a loss function <span class="math notranslate nohighlight">\(L(w)\)</span>:</p>
+of squared errors (SSE)</strong>, or the “error” between all of predicted value
+<span class="math notranslate nohighlight">\(\hat{y}^i\)</span> and the target <span class="math notranslate nohighlight">\(y^i\)</span> of <span class="math notranslate nohighlight">\(i^{th}\)</span> data
+point for <span class="math notranslate nohighlight">\(i = 1\)</span> to <span class="math notranslate nohighlight">\(n\)</span>, writing this as a loss function
+<span class="math notranslate nohighlight">\(L(w)\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[L(w) = \sum_{i=1}^{n} \left( y^i - \hat{y}^i \right)^2 = \sum_{i=1}^{n} \left( y^i - wx^i \right)^2\]</div>
 <p>From now on we refer to a data point (d+1 vector) as <span class="math notranslate nohighlight">\(x^i\)</span> and its
-corresponding target (scalar) as <span class="math notranslate nohighlight">\(y^i\)</span>.</p>
+corresponding target (scalar) as <span class="math notranslate nohighlight">\(y^i\)</span>. I know it’s confusing for
+the first time, but you’ll get used to using superscript for indexing
+data points.</p>
 <p>Surprisingly, the SSE loss is not from someone’s intuition, but it’s
 from the assumption that there is <strong>Gaussian noise in our observation</strong>
 of the underlying linear relationship. We will show how this leads to
 SSE loss later, but first let’s visualize what we’re trying to do.</p>
-<center><p><img alt="image0" src="../../_images/img_lr_objective.png" /></p>
+<center><div class="line-block">
+<div class="line"><img alt="linear regression" src="../../_images/img_lr_objective.png" /></div>
+</div>
 </center><ol class="arabic simple">
-<li>There is a true line, the true linear relationship that we want to
-discover (blue line).</li>
-<li>The data points are then observed through noise <strong>deviating from that
-line, with Gaussian distribution</strong>.</li>
-<li>Suppose we predict a random line (red), not the best one yet.</li>
-<li>We calculate the distance or difference between the predicted points
+<li><p>There is a true line, the true linear relationship that we want to
+discover (blue line).</p></li>
+<li><p>The data points are then observed through noise <strong>deviating from that
+line, with Gaussian distribution</strong>.</p></li>
+<li><p>Suppose we predict a random line (red), not the best one yet.</p></li>
+<li><p>We calculate the distance or difference between the predicted points
 (along the line) and the actual data points. This is then <strong>squared
-and sum up to get sum of squared error</strong>.</li>
+and sum up to get sum of squared error</strong>.</p></li>
 </ol>
 <blockquote>
-<div>Linear regression is the method to get the line that fits the given
-data with the minimum sum of squared error.</div></blockquote>
-<p><em>Note: I know it’s confusing for the first time, but you’ll get used to
-using superscript for indexing data points…</em></p>
+<div><p>Linear regression is the method to get the line that fits the given
+data with the minimum sum of squared error.</p>
+</div></blockquote>
 <div class="section" id="how-to-find-the-optimal-solution">
 <h3>How to Find the Optimal Solution<a class="headerlink" href="#how-to-find-the-optimal-solution" title="Permalink to this headline">¶</a></h3>
 <p>An optimal solution (<span class="math notranslate nohighlight">\(w\)</span>) for this equation can be found either
@@ -567,7 +474,7 @@ X^TXw &amp;= X^Ty    \\
 w &amp;= (X^TX)^{-1}X^Ty
 \end{align}\end{split}\]</div>
 <p>In NumPy, this is:</p>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">)</span> <span class="o">@</span> <span class="n">X</span> <span class="o">@</span> <span class="n">y</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>w = np.linalg.inv(X.T @ X) @ X @ y
 </pre></div>
 </div>
 </div>
@@ -651,7 +558,7 @@ formula from the previous section:</p>
 <code class="docutils literal notranslate"><span class="pre">X</span></code>, e.g., rows of data points.</p>
 </div>
 <div class="section" id="visualize-best-fit-line-vs-true-target-line">
-<h3>Visualize best fit line vs.&nbsp;true target line<a class="headerlink" href="#visualize-best-fit-line-vs-true-target-line" title="Permalink to this headline">¶</a></h3>
+<h3>Visualize best fit line vs. true target line<a class="headerlink" href="#visualize-best-fit-line-vs-true-target-line" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data points&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">true_targets</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True target line&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Best fit line&#39;</span><span class="p">)</span>
@@ -811,64 +718,38 @@ that manually, so set it to <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 <img alt="../../_images/sphx_glr_linear_regression_tutorial_004.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_linear_regression_tutorial_004.png" />
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.008 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.083 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-blog-content-linear-regression-linear-regression-tutorial-py">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" download="" href="../../_downloads/023c9334e6d74d6fd126ed1784f2b2e1/linear_regression_tutorial.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">linear_regression_tutorial.py</span></code></a></div>
+<p><a class="reference download internal" download="" href="../../_downloads/023c9334e6d74d6fd126ed1784f2b2e1/linear_regression_tutorial.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">linear_regression_tutorial.py</span></code></a></p>
+</div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" download="" href="../../_downloads/0adf765ec5dfaf9317dbf60d0fc90a4d/linear_regression_tutorial.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">linear_regression_tutorial.ipynb</span></code></a></div>
+<p><a class="reference download internal" download="" href="../../_downloads/0adf765ec5dfaf9317dbf60d0fc90a4d/linear_regression_tutorial.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">linear_regression_tutorial.ipynb</span></code></a></p>
+</div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
 </div>
 
 
-           </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="linear_regression_regularized.html" class="btn btn-neutral float-right" title="Linear Regression with Regularization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../../index.html" class="btn btn-neutral float-left" title="Welcome to a Friendly Guide to Machine Learning!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2019, aunnnn
-
-    </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
-
-        </div>
-      </div>
-
-    </section>
-
-  </div>
-  
-
-
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script>
-
-  
-  
-    
-   
-
-</body>
+          <div class="page-nav">
+            <div class="inner">
+  <span class="prev">
+    <a href="../../index.html"
+       title="previous chapter">← Welcome to a Friendly Guide to Machine Learning!</a>
+  </span>
+  <span class="next">
+    <a href="linear_regression_regularized.html"
+       title="next chapter">Linear Regression with Regularization →</a>
+  </span>
+<div class="footer" role="contentinfo">
+      &#169; Copyright 2019, aunnnn.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+  </div></body>
 </html>

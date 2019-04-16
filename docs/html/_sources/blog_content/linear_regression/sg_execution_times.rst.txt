@@ -5,8 +5,8 @@
 
 Computation times
 =================
-**00:01.035** total execution time for **blog_content_linear_regression** files:
+**00:01.113** total execution time for **blog_content_linear_regression** files:
 
-- **00:01.008**: :ref:`sphx_glr_blog_content_linear_regression_linear_regression_tutorial.py` (``linear_regression_tutorial.py``)
-- **00:00.027**: :ref:`sphx_glr_blog_content_linear_regression_mle_lr_tutorial.py` (``mle_lr_tutorial.py``)
+- **00:01.083**: :ref:`sphx_glr_blog_content_linear_regression_linear_regression_tutorial.py` (``linear_regression_tutorial.py``)
+- **00:00.030**: :ref:`sphx_glr_blog_content_linear_regression_mle_lr_tutorial.py` (``mle_lr_tutorial.py``)
 - **00:00.000**: :ref:`sphx_glr_blog_content_linear_regression_linear_regression_regularized.py` (``linear_regression_regularized.py``)
