@@ -20,7 +20,7 @@ Maximum Likelihood Estimation
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.030 seconds)
+   **Total running time of the script:** ( 0 minutes  0.024 seconds)
 
 
 .. _sphx_glr_download_blog_content_linear_regression_mle_lr_tutorial.py:

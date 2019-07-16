@@ -307,7 +307,7 @@ Linear Regression with Regularization
 # 
 #    <center>
 # 
-# | |lasso regression sol 30|
+# | |ridge regression sol 30|
 # 
 # .. raw:: html
 # 
@@ -387,7 +387,7 @@ Linear Regression with Regularization
 # mean, why not?) and thus is exploited, if the opportunity arises.
 # 
 # .. |ridge regression| image:: imgs/img_ridge_regression.png
-# .. |lasso regression sol 30| image:: imgs/img_ridge_sol_30.png
+# .. |ridge regression sol 30| image:: imgs/img_ridge_sol_30.png
 # .. |ridge regression sol 60| image:: imgs/img_ridge_sol_60.png
 # .. |lasso regression| image:: imgs/img_lasso_regression.png
 # .. |lasso regression sol 30| image:: imgs/img_lasso_sol_30.png
@@ -395,3 +395,4 @@ Linear Regression with Regularization
 # .. |l1 vs l2| image:: imgs/img_l1_vs_l2_contour.png
 # 
 # 
+
